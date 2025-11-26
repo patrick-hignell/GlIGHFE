@@ -4,13 +4,17 @@
 export async function up(knex) {
   return knex.schema.createTable('posts', (table) => {
     table.increments('id').primary()
-    table.integer('user_id')
-    table.integer('date_added')
+    table
+      .integer('user_id')
+      .notNullable()
+      .references('users.id')
+      .onDelete('CASCADE')
+    table.timestamp('date_added').notNullable().defaultTo(knex.fn.now())
     table.string('message')
     table.string('image')
     table.string('font')
     table.integer('char_limit')
-    table.boolean('public')
+    table.boolean('public').notNullable().defaultTo(true)
   })
 }
 

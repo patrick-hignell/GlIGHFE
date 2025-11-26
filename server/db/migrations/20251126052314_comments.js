@@ -4,8 +4,16 @@
 export async function up(knex) {
   return knex.schema.createTable('comments', (table) => {
     table.increments('id').primary()
-    table.integer('post_id')
-    table.integer('user_id')
+    table
+      .integer('post_id')
+      .notNullable()
+      .references('posts.id')
+      .onDelete('CASCADE')
+    table
+      .integer('user_id')
+      .notNullable()
+      .references('users.id')
+      .onDelete('CASCADE')
     table.string('message')
     table.string('image')
     table.string('font')
