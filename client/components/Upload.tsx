@@ -16,7 +16,7 @@ import { ChangeEvent, useState } from 'react'
 //   ],
 // })
 
-export function UploadPage() {
+function UploadPage() {
   const [file, setFile] = useState<File>()
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -48,3 +48,5 @@ export function UploadPage() {
     </div>
   )
 }
+
+export default UploadPage
