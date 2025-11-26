@@ -10,7 +10,7 @@ server.use(express.json())
 
 // server.use('/api/v1/fruits', fruitRoutes)
 
-server.use('api/v1/upload', uploadRoutes)
+server.use('/api/v1/upload', uploadRoutes)
 
 if (process.env.NODE_ENV === 'production') {
   server.use(express.static(Path.resolve('public')))

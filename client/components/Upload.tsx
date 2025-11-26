@@ -1,6 +1,6 @@
 import { Image } from 'cloudinary-react'
 import { addFile } from '../apis/upload'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, MouseEvent, useState } from 'react'
 
 // cloudinary.config({
 //   cloud_name: 'dfjgv0mp6',
@@ -23,7 +23,8 @@ function UploadPage() {
     if (e.target.files) setFile(e.target.files[0])
   }
 
-  async function handleSubmit() {
+  async function handleSubmit(e: MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault()
     if (!file) return
 
     const postId = await addFile(file)
@@ -41,7 +42,7 @@ function UploadPage() {
           accept=".jpg, .png .webp"
           onChange={(e) => handleChange(e)}
         ></input>
-        <button type="submit" onClick={handleSubmit}>
+        <button type="submit" onClick={(e) => handleSubmit(e)}>
           Submit
         </button>
       </form>
