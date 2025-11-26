@@ -12,7 +12,7 @@ export async function up(knex) {
     table
       .integer('user_id')
       .notNullable()
-      .references('users.auth_id')
+      .references('users.id')
       .onDelete('CASCADE')
     table.string('message')
     table.string('image')
