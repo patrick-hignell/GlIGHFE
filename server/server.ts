@@ -1,11 +1,17 @@
 import express from 'express'
 import * as Path from 'node:path'
 import uploadRoutes from './routes/upload.ts'
+
+// import fruitRoutes from './routes/fruits.ts'
+import postRoutes from './routes/posts'
 import userRoutes from './routes/users.ts'
 
 const server = express()
 
 server.use(express.json())
+
+// server.use('/api/v1/fruits', fruitRoutes)
+server.use('/api/v1/posts', postRoutes)
 
 server.use('/api/v1/upload', uploadRoutes)
 server.use('/api/v1/users', userRoutes)

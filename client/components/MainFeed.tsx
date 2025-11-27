@@ -1,10 +1,25 @@
-import React from 'react'
+import { usePosts } from '../hooks/usePosts'
+import Post from './Post'
 
 function MainFeed() {
+  const { data: posts, isLoading, isError } = usePosts()
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (isError) {
+    return <div>Error fetching posts</div>
+  }
+
   return (
-    <div>
-      <h2>Main Feed</h2>
-      {/* Main feed content goes here */}
+    <div className="h-screen overflow-y-auto p-4">
+      <h2 className="mb-4 text-2xl font-bold">Main Feed</h2>
+      <div>
+        {posts?.map((post) => (
+          <Post key={post.id} post={post} />
+        ))}
+      </div>
     </div>
   )
 }
