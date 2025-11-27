@@ -4,7 +4,7 @@ import request from 'superagent'
 
 const rootURL = new URL(`/api/v1`, document.baseURI)
 
-export async function addFile(file: File): Promise<number> {
+export async function addFile(file: File) {
   const data = new FormData()
   data.append('my_file', file)
   // const response = await request.post(`${rootURL}/upload`).attach('image', data)

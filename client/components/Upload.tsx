@@ -1,53 +1,16 @@
-import { Image } from 'cloudinary-react'
-import { addFile } from '../apis/upload'
-import { ChangeEvent, MouseEvent, useState } from 'react'
-
-// cloudinary.config({
-//   cloud_name: 'dfjgv0mp6',
-//   secure: true,
-// })
-
-// const url = cloudinary.url('kitten', {
-//   transformation: [
-//     {
-//       fetch_format: 'auto',
-//       quality: 'auto',
-//     },
-//   ],
-// })
+import { useState } from 'react'
+import { PhotoUploader } from './PhotoUploader'
 
 function UploadPage() {
-  const [file, setFile] = useState<File>()
+  const [imageId, setImageId] = useState('kitten')
 
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    if (e.target.files) setFile(e.target.files[0])
+  function handleImageChange(newImage: string) {
+    setImageId(newImage)
+    console.log(newImage)
+    console.log(imageId)
   }
 
-  async function handleSubmit(e: MouseEvent<HTMLButtonElement, MouseEvent>) {
-    e.preventDefault()
-    if (!file) return
-
-    const postId = await addFile(file)
-    console.log(postId)
-    // use POST route to add to server using api
-  }
-
-  return (
-    <div>
-      <p>Meow!</p>
-      <Image cloudName="dfjgv0mp6" publicId="kitten" width="300" crop="scale" />
-      <form>
-        <input
-          type="file"
-          accept=".jpg, .png .webp"
-          onChange={(e) => handleChange(e)}
-        ></input>
-        <button type="submit" onClick={(e) => handleSubmit(e)}>
-          Submit
-        </button>
-      </form>
-    </div>
-  )
+  return <PhotoUploader image={imageId} onImageChange={handleImageChange} />
 }
 
 export default UploadPage
