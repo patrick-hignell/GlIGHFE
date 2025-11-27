@@ -1,5 +1,7 @@
 import express from 'express'
 import * as Path from 'node:path'
+import uploadRoutes from './routes/upload.ts'
+
 import userRoutes from './routes/users.ts'
 // import fruitRoutes from './routes/fruits.ts'
 
@@ -8,6 +10,8 @@ const server = express()
 server.use(express.json())
 
 // server.use('/api/v1/fruits', fruitRoutes)
+
+server.use('/api/v1/upload', uploadRoutes)
 server.use('/api/v1/users', userRoutes)
 
 if (process.env.NODE_ENV === 'production') {

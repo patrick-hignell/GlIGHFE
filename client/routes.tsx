@@ -2,7 +2,7 @@ import { createRoutesFromElements, Route } from 'react-router'
 import Layout from './components/Layout.tsx'
 import MainFeed from './components/MainFeed.tsx'
 import ProfilePage from './components/ProfilePage.tsx'
-import Upload from './components/Upload.tsx'
+import UploadPage from './components/Upload.tsx'
 import LoginPage from './components/LoginPage.tsx'
 import Onboarding from './components/Onboarding.tsx'
 
@@ -16,6 +16,6 @@ export default createRoutesFromElements(
     <Route path="onboarding" element={<Onboarding />} />
     <Route path="feed" element={<MainFeed />} />
     <Route path="profile" element={<ProfilePage />} />
-    <Route path="upload" element={<Upload />} />
+    <Route path="upload" element={<UploadPage />} />
   </Route>,
 )

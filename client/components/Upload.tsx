@@ -1,12 +1,16 @@
-import React from 'react'
+import { useState } from 'react'
+import { PhotoUploader } from './PhotoUploader'
 
-function Upload() {
-  return (
-    <div>
-      <h2>Upload Page</h2>
-      {/* Main feed content goes here */}
-    </div>
-  )
+function UploadPage() {
+  const [imageId, setImageId] = useState('kitten')
+
+  function handleImageChange(newImage: string) {
+    setImageId(newImage)
+    console.log(newImage)
+    console.log(imageId)
+  }
+
+  return <PhotoUploader image={imageId} onImageChange={handleImageChange} />
 }
 
-export default Upload
+export default UploadPage

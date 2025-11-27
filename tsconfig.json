@@ -13,5 +13,8 @@
     "allowImportingTsExtensions": true,
     "allowJs": true,
     "skipLibCheck": true
-  }
+  },
+  "include": [
+        "/cloudinary-react.d.ts" 
+      ]
 }
