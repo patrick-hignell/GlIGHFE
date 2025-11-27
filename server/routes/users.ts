@@ -26,7 +26,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const { authId, name, bio, font, profilePicture } = req.body as UserData
+    const { authId, name, bio, font, profilePicture }: UserData = req.body
     await addUser({ authId, name, bio, font, profilePicture })
     res.sendStatus(201)
   } catch (err) {
