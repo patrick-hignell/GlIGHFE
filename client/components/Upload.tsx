@@ -11,7 +11,7 @@ function UploadPage() {
 
   const { user, isAuthenticated } = useAuth0()
   const [formData, setFormData] = useState({
-    userId: user?.sub || '3',
+    userId: user?.sub,
     message: '',
     imageUrl: imageId,
     charLimit: charLimit,
@@ -22,7 +22,6 @@ function UploadPage() {
   const { mutate, isPending, isError } = useMutation({
     mutationFn: addPost,
     onSuccess: (data) => {
-      console.log(data)
       navigate('/profile')
     },
   })
@@ -51,13 +50,14 @@ function UploadPage() {
     const submissionData = {
       ...formData,
       imageUrl: imageId,
+      charLimit: charLimit,
     }
     mutate(submissionData)
   }
 
   if (isAuthenticated) {
     return (
-      <div className="flex, flex-col">
+      <div className="flex flex-col">
         <PhotoUploader image={imageId} onImageChange={handleImageChange} />
         <br />
         <form onSubmit={handleSubmit}>

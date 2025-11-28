@@ -19,13 +19,11 @@ router.post('/', async (req, res) => {
   try {
     const newPost = await db.addPost(req.body)
     res.status(StatusCodes.CREATED).json(newPost)
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      console.error(err.message)
-    } else {
-      console.error('something went wrong')
-    }
-    res.sendStatus(500)
+  } catch (error) {
+    console.error(error)
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Something went wrong' })
   }
 })
 

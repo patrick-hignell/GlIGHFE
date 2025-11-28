@@ -13,8 +13,7 @@ export async function getAllPosts(db = connection): Promise<Post[]> {
       'posts.message',
       'posts.date_added as dateAdded',
     )
-  // .orderBy('posts.date_added', 'desc')
-  console.log(posts)
+    .orderBy('posts.date_added', 'desc')
   return posts
 }
 
@@ -29,6 +28,5 @@ export async function addPost(post: PostData): Promise<Post> {
       public: post.public,
     })
     .returning('*')
-  console.log(result)
   return result[0]
 }

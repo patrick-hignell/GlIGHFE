@@ -22,7 +22,7 @@ export function PhotoUploader({ image, onImageChange }: Props) {
     if (e.target.files) setFile(e.target.files[0])
   }
 
-  function handleSubmit(e: MouseEvent<HTMLFormElement, globalThis.MouseEvent>) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (!file) return
 

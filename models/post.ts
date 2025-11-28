@@ -4,7 +4,7 @@ export interface Post {
   userName: string
   imageUrl: string
   message: string
-  dateAdded: number // UNIX
+  dateAdded: string
 }
 
 export interface PostData {
