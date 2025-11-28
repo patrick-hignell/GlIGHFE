@@ -2,7 +2,12 @@
 export default {
   content: ['./index.html', './client/**/*.tsx'],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Wingdings', 'sans-serif'], // Overrides default sans font
+        body: ['Roboto', 'sans-serif'], // Creates a new 'font-body' utility
+      },
+    },
   },
   plugins: [],
 }
