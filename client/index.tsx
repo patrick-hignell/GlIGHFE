@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
      * TODO: replace domain, clientId, and audience
      */
     <Auth0Provider
-      domain=""
-      clientId=""
+      domain="koanga-2025-nikola.au.auth0.com"
+      clientId="Lip3u8eXCwT6pTnKxTFnwTJrPuPZJEQ3"
       authorizationParams={{
         redirect_uri: window.location.origin,
-        audience: '',
+        audience: 'https://glighe/api',
       }}
     >
       <QueryClientProvider client={queryClient}>
