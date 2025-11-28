@@ -40,6 +40,6 @@ describe('getAllPosts', () => {
     // A more specific check on the first post's content
     expect(posts[0].userName).toBe('Sofia')
     expect(posts[0].message).toBe('') // Based on seed file
-    expect(posts[0].imageUrl).toBe('test-image-1')
+    expect(posts[0].imageUrl).toBe('kitten')
   })
 })

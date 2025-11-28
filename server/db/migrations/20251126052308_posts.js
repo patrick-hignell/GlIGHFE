@@ -5,9 +5,9 @@ export async function up(knex) {
   return knex.schema.createTable('posts', (table) => {
     table.increments('id').primary()
     table
-      .integer('user_id')
+      .string('user_id')
       .notNullable()
-      .references('users.id')
+      .references('users.auth_id')
       .onDelete('CASCADE')
     table.timestamp('date_added').notNullable().defaultTo(knex.fn.now())
     table.string('message')

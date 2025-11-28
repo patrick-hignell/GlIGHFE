@@ -5,7 +5,7 @@ export async function up(knex) {
   return knex.schema.createTable('likes', (table) => {
     table.increments('id').primary()
     table
-      .integer('user_id')
+      .string('user_id')
       .notNullable()
       .references('users.id')
       .onDelete('CASCADE')

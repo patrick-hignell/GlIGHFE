@@ -10,7 +10,7 @@ export async function up(knex) {
       .references('posts.id')
       .onDelete('CASCADE')
     table
-      .integer('user_id')
+      .string('user_id')
       .notNullable()
       .references('users.id')
       .onDelete('CASCADE')

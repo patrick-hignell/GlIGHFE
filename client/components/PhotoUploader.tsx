@@ -1,6 +1,7 @@
 import { Image } from 'cloudinary-react'
 import { addFile } from '../apis/upload'
 import { ChangeEvent, MouseEvent, useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
 
 interface Props {
   image: string
@@ -8,35 +9,45 @@ interface Props {
 }
 
 export function PhotoUploader({ image, onImageChange }: Props) {
+  const { mutate, isPending, isError } = useMutation({
+    mutationFn: addFile,
+    onSuccess: (data) => {
+      onImageChange(data.publicId)
+    },
+  })
+
   const [file, setFile] = useState<File>()
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) setFile(e.target.files[0])
   }
 
-  async function handleSubmit(
-    e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
-  ) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (!file) return
 
-    const response = await addFile(file)
-    onImageChange(response.publicId)
+    mutate(file)
   }
 
   return (
     <div>
-      <p>Meow!</p>
-      <Image cloudName="dfjgv0mp6" publicId={image} width="300" crop="scale" />
-      <form>
+      {isError && <p>Something went wrong!</p>}
+      {isPending && <p>Loading...</p>}
+      {!isError && (
+        <Image
+          cloudName="dfjgv0mp6"
+          publicId={image}
+          width="300"
+          crop="scale"
+        />
+      )}
+      <form onSubmit={handleSubmit}>
         <input
           type="file"
-          accept=".jpg, .png, .webp"
+          accept=".jpg, .jpeg, .png, .webp"
           onChange={(e) => handleChange(e)}
         ></input>
-        <button type="submit" onClick={(e) => handleSubmit(e)}>
-          Submit
-        </button>
+        {!isPending && <button type="submit">Submit</button>}
       </form>
     </div>
   )
