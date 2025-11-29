@@ -45,5 +45,13 @@ export async function seed(knex) {
       font: '',
       profile_picture: '',
     },
+    {
+      id: 7,
+      auth_id: 'google-oauth2|116118796709799810524',
+      name: 'Matt v2',
+      bio: 'Just a regular Matt, enjoying the G(ood)-life.',
+      font: '',
+      profile_picture: '',
+    },
   ])
 }

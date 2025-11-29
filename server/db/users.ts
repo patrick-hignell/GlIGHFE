@@ -1,6 +1,7 @@
 import db from './connection.js'
 import { User, UserData } from '../../models/user.js'
 import { Post } from '../../models/post.js'
+import { Knex } from 'knex'
 
 // export async function getAllFruits() {
 //   const fruit = await db('fruit').select()
@@ -32,8 +33,12 @@ export async function addUser({
 // Note - Following code has been refactored to use authId instead of numeric ID:
 
 // Get basic User info for profiles
-export async function getUserProfile(authId: string): Promise<User> {
-  const user = await db('users')
+export async function getUserProfile(
+  authId: string,
+  testDb?: Knex,
+): Promise<User> {
+  const connection = testDb || db // Use testDb if provided, otherwise use default db
+  const user = await connection('users')
     .select('id', 'name', 'bio', 'profile_picture')
     .where('auth_id', authId)
     .first()
@@ -41,8 +46,12 @@ export async function getUserProfile(authId: string): Promise<User> {
 }
 
 // Retrieve all posts from User
-export async function getUserPosts(authId: string): Promise<Post[]> {
-  const postsFromDb = await db('posts')
+export async function getUserPosts(
+  authId: string,
+  testDb?: Knex,
+): Promise<Post[]> {
+  const connection = testDb || db // Use testDb if provided, otherwise use default db
+  const postsFromDb = await connection('posts')
     .join('users', 'posts.user_id', 'users.id')
     .select(
       'posts.id',
@@ -59,7 +68,7 @@ export async function getUserPosts(authId: string): Promise<Post[]> {
   const posts = postsFromDb.map((post) => {
     return {
       ...post,
-      dateAdded: new Date(post.dateAdded).getTime() / 1000, // Convert to UNIX timestamp
+      dateAdded: new Date(post.dateAdded).getTime() / 1000, // Convert UNIX timestamp
     }
   })
 
@@ -67,10 +76,14 @@ export async function getUserPosts(authId: string): Promise<Post[]> {
 }
 
 // Get followers of User
-export async function getFollowers(authId: string): Promise<User[]> {
-  const userIdQuery = db('users').select('id').where('auth_id', authId)
+export async function getFollowers(
+  authId: string,
+  testDb?: Knex,
+): Promise<User[]> {
+  const connection = testDb || db // Use testDb if provided, otherwise use default db
+  const userIdQuery = connection('users').select('id').where('auth_id', authId)
 
-  const followers = await db('followers')
+  const followers = await connection('followers')
     .join('users', 'followers.follower_id', 'users.id')
     .where('followers.following_id', userIdQuery)
     .select('users.id', 'users.name', 'users.profile_picture')
@@ -78,10 +91,14 @@ export async function getFollowers(authId: string): Promise<User[]> {
 }
 
 // Get who User is following
-export async function getFollowing(authId: string): Promise<User[]> {
-  const userIdQuery = db('users').select('id').where('auth_id', authId)
+export async function getFollowing(
+  authId: string,
+  testDb?: Knex,
+): Promise<User[]> {
+  const connection = testDb || db // Use testDb if provided, otherwise use default db
+  const userIdQuery = connection('users').select('id').where('auth_id', authId)
 
-  const following = await db('followers')
+  const following = await connection('followers')
     .join('users', 'followers.following_id', 'users.id')
     .where('followers.follower_id', userIdQuery)
     .select('users.id', 'users.name', 'users.profile_picture')
