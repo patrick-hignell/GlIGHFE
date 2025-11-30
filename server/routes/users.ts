@@ -1,7 +1,15 @@
 import { Router } from 'express'
 // import checkJwt, { JwtRequest } from '../auth0.ts'
-import { addUser, getUserById } from '../db/users.ts'
-import { UserData } from '../../models/user.ts'
+import { StatusCodes } from 'http-status-codes'
+import {
+  addUser,
+  getUserProfile,
+  getUserPosts,
+  getFollowers,
+  getFollowing,
+} from '../db/users.js'
+import { UserData } from '../../models/user.js'
+
 const router = Router()
 
 // router.get('/', async (req, res) => {
@@ -15,20 +23,60 @@ const router = Router()
 //   }
 // })
 
+// GET /api/v1/users/:id - Get user profile by AuthId
 router.get('/:id', async (req, res, next) => {
   try {
-    const user = await getUserById(req.params.id)
-    res.json(user)
+    const authId = req.params.id
+    const user = await getUserProfile(authId)
+    if (user) {
+      res.json(user)
+    } else {
+      res.status(StatusCodes.NOT_FOUND).send('User not found')
+    }
   } catch (err) {
     next(err)
   }
 })
 
+// POST /api/v1/users - Add a new user
 router.post('/', async (req, res, next) => {
   try {
     const { authId, name, bio, font, profilePicture }: UserData = req.body
     await addUser({ authId, name, bio, font, profilePicture })
     res.sendStatus(201)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// GET /api/v1/users/:id/posts - Get all posts by a user
+router.get('/:id/posts', async (req, res, next) => {
+  try {
+    const authId = req.params.id // <-- Use authId directly
+    const posts = await getUserPosts(authId) // <-- Pass authId
+    res.json(posts)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// GET /api/v1/users/:id/followers - Get users following a user
+router.get('/:id/followers', async (req, res, next) => {
+  try {
+    const authId = req.params.id // <-- Use authId directly
+    const followers = await getFollowers(authId) // <-- Pass authId
+    res.json(followers)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// GET /api/v1/users/:id/following - Get users a user is following
+router.get('/:id/following', async (req, res, next) => {
+  try {
+    const authId = req.params.id // <-- Use authId directly
+    const following = await getFollowing(authId) // <-- Pass authId
+    res.json(following)
   } catch (err) {
     next(err)
   }

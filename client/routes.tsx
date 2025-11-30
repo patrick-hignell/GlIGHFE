@@ -15,7 +15,8 @@ export default createRoutesFromElements(
     {/* These are the pages for your navbar links */}
     <Route path="onboarding" element={<Onboarding />} />
     <Route path="feed" element={<MainFeed />} />
-    <Route path="profile" element={<ProfilePage />} />
+    {/* <Route path="profile" element={<ProfilePage />} />  ---- old code before <feature/profile-page> branch*/}
+    <Route path="profile/:authId" element={<ProfilePage />} />
     <Route path="upload" element={<UploadPage />} />
   </Route>,
 )

@@ -1,10 +1,17 @@
-import React from 'react'
 import { Link } from 'react-router'
+import { useAuth0 } from '@auth0/auth0-react'
 
 function Navbar() {
+  const { user } = useAuth0()
+
   const navItems = [
     { to: '/feed', label: 'Feed', 'aria-label': 'feed', icon: 'X' },
-    { to: '/profile', label: 'Profile', 'aria-label': 'profile', icon: 'Y' },
+    {
+      to: user ? `/profile/${user.sub}` : '/',
+      label: 'Profile',
+      'aria-label': 'profile',
+      icon: 'Y',
+    },
     { to: '/upload', label: 'Upload', 'aria-label': 'add image', icon: 'Z' },
   ]
 
@@ -12,7 +19,7 @@ function Navbar() {
     <nav className="fixed bottom-0 left-0 right-0 flex items-center justify-around bg-gray-800 p-4 text-white shadow-lg">
       {navItems.map((item) => (
         <Link
-          key={item.to}
+          key={item.label}
           to={item.to}
           className="flex flex-col items-center rounded-md p-2 transition-colors duration-200 hover:bg-gray-700"
         >
