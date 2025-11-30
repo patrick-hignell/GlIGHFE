@@ -2,11 +2,9 @@ import { Outlet } from 'react-router'
 import Navbar from './Navbar'
 
 export default function Layout() {
-  //const font = 'sans'
-  const font = 'Wingdings'
-
+  const wingdings = false
   return (
-    <div className={`font-[${font}]`}>
+    <div className={wingdings ? "font-['wingdings']" : 'font-sans'}>
       <header className="flex flex-col items-center">
         <h1 className="p-6 text-4xl">GlIGHFE!</h1>
       </header>
