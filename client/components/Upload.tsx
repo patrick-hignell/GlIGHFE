@@ -1,30 +1,26 @@
 import { useState } from 'react'
 import { PhotoUploader } from './PhotoUploader'
 import { useAuth0 } from '@auth0/auth0-react'
-import { useMutation } from '@tanstack/react-query'
-import { addPost } from '../apis/posts'
 import { useNavigate } from 'react-router'
+import { PostData } from '../../models/post'
+import { useAddPost } from '../hooks/usePosts'
 
 function UploadPage() {
   const [imageId, setImageId] = useState('kitten')
   const [charLimit, setCharLimit] = useState(10)
 
   const { user, isAuthenticated } = useAuth0()
-  const [formData, setFormData] = useState({
-    userId: user?.sub,
+  const navigate = useNavigate()
+
+  const [formData, setFormData] = useState<Omit<PostData, 'userId'>>({
     message: '',
     imageUrl: imageId,
     charLimit: charLimit,
     font: '',
     public: true,
   })
-  const navigate = useNavigate()
-  const { mutate, isPending, isError } = useMutation({
-    mutationFn: addPost,
-    onSuccess: (data) => {
-      navigate('/profile')
-    },
-  })
+
+  const { mutate, isPending, isError } = useAddPost()
 
   function handleImageChange(newImage: string) {
     setImageId(newImage)
@@ -47,12 +43,26 @@ function UploadPage() {
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault()
-    const submissionData = {
+
+    if (!isAuthenticated || !user?.sub) {
+      console.error(
+        'Submission failed: User is not authenticated or ID is unavailable.',
+      )
+      return
+    }
+
+    const submissionData: PostData = {
       ...formData,
+      userId: user.sub,
       imageUrl: imageId,
       charLimit: charLimit,
     }
-    mutate(submissionData)
+
+    mutate(submissionData, {
+      onSuccess: () => {
+        navigate('/feed')
+      },
+    })
   }
 
   if (isAuthenticated) {
@@ -80,7 +90,9 @@ function UploadPage() {
             onChange={handleChange}
             value={formData.message}
           ></input>
-          <button type="submit">Post</button>
+          <button type="submit" disabled={isPending || !user?.sub}>
+            Post
+          </button>
           <br />
         </form>
         {isPending && <p>Uploading post...</p>}

@@ -52,7 +52,7 @@ export async function getUserPosts(
 ): Promise<Post[]> {
   const connection = testDb || db
   const postsFromDb = await connection('posts')
-    .join('users', 'posts.user_id', 'users.id')
+    .join('users', 'posts.user_id', 'users.auth_id')
     .select(
       'posts.id',
       'posts.user_id as userId',
