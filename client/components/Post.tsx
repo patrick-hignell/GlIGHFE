@@ -16,20 +16,21 @@ function Post({ post }: Props) {
     hour12: false, // Use 24-hour format
   }
   return (
-    <div className="mb-4 rounded-lg bg-white p-4 shadow-md">
+    <div className="mb-4 flex flex-col items-center rounded-lg bg-white p-4 shadow-md">
       <h3 className="text-lg font-bold">{post.userName}</h3>
       {post.imageUrl && (
         <Image
           cloudName="dfjgv0mp6"
           publicId={post.imageUrl}
-          width="300"
+          // width="300"
+          height="600"
           crop="scale"
         />
       )}
       <p className="mt-2 text-gray-800">{post.message}</p>
-      <p className="mt-1 text-sm text-gray-500">
+      {/* <p className="mt-1 text-sm text-gray-500">
         {new Date(post.dateAdded).toLocaleString('en-NZ', options)}
-      </p>
+      </p> */}
     </div>
   )
 }

@@ -7,9 +7,9 @@ export default function Layout() {
   return (
     <div className={`font-[${font}]`}>
       <header className="flex flex-col items-center">
-        <h1>GlIGHFE!</h1>
+        <h1 className="p-6 text-4xl">GlIGHFE!</h1>
       </header>
-      <main className="pb-20">
+      <main className="flex flex-col items-center pb-20">
         {/* Bottom padding to account for fixed navbar height */}
         <Outlet />
       </main>

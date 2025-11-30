@@ -15,7 +15,7 @@ function MainFeed() {
 
   return (
     <div className="h-screen overflow-y-auto p-4">
-      <h2 className="mb-4 text-2xl font-bold">Main Feed</h2>
+      {/* <h2 className="mb-4 text-2xl font-bold">Main Feed</h2> */}
       <div>
         {posts?.map((post) => (
           <Post key={post.id} post={post} />
