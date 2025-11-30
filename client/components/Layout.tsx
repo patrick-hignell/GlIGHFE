@@ -2,7 +2,7 @@ import { Outlet } from 'react-router'
 import Navbar from './Navbar'
 
 export default function Layout() {
-  const font = 'Wingdings'
+  const font = 'sans'
   // const font = 'Wingdings'
   return (
     <div className={`font-[${font}]`}>
