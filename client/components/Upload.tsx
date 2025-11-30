@@ -21,8 +21,8 @@ function UploadPage() {
   const navigate = useNavigate()
   const { mutate, isPending, isError } = useMutation({
     mutationFn: addPost,
-    onSuccess: (data) => {
-      navigate('/profile')
+    onSuccess: () => {
+      navigate('/feed')
     },
   })
 
