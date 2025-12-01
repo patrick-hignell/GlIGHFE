@@ -7,6 +7,8 @@ import {
   getUserPosts,
   getFollowers,
   getFollowing,
+  editUser,
+  editUserProfilePicture,
 } from '../db/users.js'
 import { UserData } from '../../models/user.js'
 
@@ -30,6 +32,34 @@ router.get('/:id', async (req, res, next) => {
     const user = await getUserProfile(authId)
     if (user) {
       res.json(user)
+    } else {
+      res.status(StatusCodes.NOT_FOUND).send('User not found')
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/', async (req, res, next) => {
+  try {
+    const user = req.body
+    const result = await editUser(user)
+    if (result) {
+      res.json(result)
+    } else {
+      res.status(StatusCodes.NOT_FOUND).send('User not found')
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.patch('/', async (req, res, next) => {
+  try {
+    const { authId, profilePicture } = req.body
+    const result = await editUserProfilePicture(authId, profilePicture)
+    if (result) {
+      res.json(result)
     } else {
       res.status(StatusCodes.NOT_FOUND).send('User not found')
     }

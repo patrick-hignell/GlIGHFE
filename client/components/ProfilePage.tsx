@@ -8,7 +8,9 @@ import {
   useFollowing,
 } from '../hooks/useProfile.js'
 import FollowListModal from './FollowListModal'
-import Post from './Post'
+import Post from './Post.js'
+import Loading from './Loading.js'
+import { Image } from 'cloudinary-react'
 
 function ProfilePage() {
   const { authId } = useParams<{ authId: string }>()
@@ -55,7 +57,7 @@ function ProfilePage() {
     isFollowersLoading ||
     isFollowingLoading
   ) {
-    return <p className="text-center text-gray-500">Loading profile...</p>
+    return <Loading />
   }
 
   const errorStates = [
@@ -90,23 +92,23 @@ function ProfilePage() {
     <div className="container mx-auto p-4">
       {/* Profile Header */}
       <div className="mb-6 flex items-center space-x-4 rounded-lg bg-gray-800 p-4 shadow-md">
-        <img
-          src={userProfile.profile_picture || 'https://via.placeholder.com/150'}
-          alt={`${userProfile.name}'s profile`}
-          className="h-24 w-24 rounded-full border-4 border-purple-500 object-cover"
-        />
+        <div className="mb-6 flex h-48 w-48 items-center space-x-4 overflow-hidden rounded-[100%] bg-gray-900 p-4 shadow-md">
+          {userProfile.profile_picture && (
+            <Image
+              cloudName="dfjgv0mp6"
+              publicId={userProfile.profile_picture}
+              crop="fill"
+            />
+          )}
+        </div>
         <div>
           <h1 className="text-3xl font-bold text-white">{userProfile.name}</h1>
           <p className="italic text-gray-300">
             {userProfile.bio || 'No bio provided.'}
           </p>
+
           {/* Post, Followers, and Following Interactions */}
           <div className="mt-2 flex space-x-4">
-            {/* <span className="text-gray-400">
-              <strong className="text-white">{userPosts?.length || 0}</strong>{' '}
-              Posts
-            </span> */}
-            {/* Clickable icon (as a button) for Followers */}
             <button
               className="flex items-center space-x-1 text-white hover:underline focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
               onClick={() => setModalView('followers')}
@@ -114,7 +116,6 @@ function ProfilePage() {
             >
               <i className="bi bi-people text-2xl"></i>
             </button>
-            {/* Clickable icon (as a button) for Following */}
             <button
               className="flex items-center space-x-1 text-white hover:underline focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
               onClick={() => setModalView('following')}

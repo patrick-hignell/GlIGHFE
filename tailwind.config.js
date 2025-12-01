@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Wingdings', 'sans-serif'], // Overrides default sans font
+        sans: ['sans-serif'], // Overrides default sans font
         body: ['Roboto', 'sans-serif'], // Creates a new 'font-body' utility
       },
     },

@@ -10,6 +10,7 @@ import '@testing-library/jest-dom/vitest'
 import MainFeed from './MainFeed'
 import { usePosts } from '../hooks/usePosts'
 import { Post } from '../../models/post'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 // Mock the usePosts hook
 vi.mock('../hooks/usePosts', () => ({
@@ -53,25 +54,36 @@ const createMockUsePostsValue = (
 describe('MainFeed component', () => {
   it('should display a loading message when posts are loading', () => {
     // Arrange
+    const queryClient = new QueryClient()
     vi.mocked(usePosts).mockReturnValue(
       createMockUsePostsValue({ isLoading: true, status: 'pending' }),
     )
 
     // Act
-    render(<MainFeed />)
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MainFeed />
+      </QueryClientProvider>,
+    )
 
     // Assert
-    expect(screen.getByText('Loading...')).toBeInTheDocument()
+    expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
   })
 
   it('should display an error message when fetching posts fails', () => {
     // Arrange
+    const queryClient = new QueryClient()
     vi.mocked(usePosts).mockReturnValue(
       createMockUsePostsValue({ isError: true, status: 'error' }),
     )
 
     // Act
-    render(<MainFeed />)
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MainFeed />
+      </QueryClientProvider>,
+    )
 
     // Assert
     expect(screen.getByText('Error fetching posts')).toBeInTheDocument()
@@ -79,6 +91,7 @@ describe('MainFeed component', () => {
 
   it('should display a list of posts when data is successfully fetched', async () => {
     // Arrange
+    const queryClient = new QueryClient()
     const mockPosts: Post[] = [
       {
         id: 1,
@@ -107,7 +120,11 @@ describe('MainFeed component', () => {
     )
 
     // Act
-    render(<MainFeed />)
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MainFeed />
+      </QueryClientProvider>,
+    )
 
     // Assert
     await waitFor(() => {

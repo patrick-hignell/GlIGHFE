@@ -17,6 +17,18 @@ export async function createUser(userData: UserData): Promise<void> {
   await request.post(`${rootURL}/users`).send(userData)
 }
 
+export async function editUser(user: User): Promise<string> {
+  const response = await request.put(`${rootURL}/users`).send(user)
+  return response.body
+}
+
+export async function editUserProfilePicture(
+  authId: string,
+  profilePicture: string,
+): Promise<void> {
+  await request.patch(`${rootURL}/users`).send({ authId, profilePicture })
+}
+
 // --- Functions for Profile Page ---
 export async function fetchUserProfile(authId: string): Promise<User> {
   const response = await request.get(`${rootURL}/users/${authId}`)

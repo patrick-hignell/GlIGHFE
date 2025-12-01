@@ -5,6 +5,7 @@ import { FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { IfAuthenticated, IfNotAuthenticated } from './Authenticated'
 import { UserData } from '../../models/user'
+import Loading from './Loading'
 // import { PhotoUploader } from './PhotoUploader'
 
 function LoginPage() {
@@ -58,7 +59,9 @@ function LoginPage() {
     })
   }
 
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = evt.target
     setFormState((prev) => ({
       ...prev,
@@ -82,13 +85,13 @@ function LoginPage() {
     }
   }
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+  // if (isLoading) {
+  //   return <Loading />
+  // }
 
-  if (isError) {
-    return <div>Error loading user data</div>
-  }
+  // if (isError) {
+  //   return <div>Error loading user data</div>
+  // }
 
   return (
     <div className="flex flex-col items-center">

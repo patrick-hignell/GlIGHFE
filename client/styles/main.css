@@ -1,9 +1,21 @@
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Egyptian+Hieroglyphs&family=Noto+Sans+Meroitic&display=swap');
 @font-face {
   font-family: 'Wingdings';
   src: url('./fonts/wingding.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+}
+.noto-sans-egyptian-hieroglyphs-regular {
+  font-family: 'Noto Sans Egyptian Hieroglyphs', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.noto-sans-meroitic-regular {
+  font-family: 'Noto Sans Meroitic', sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 @tailwind base;

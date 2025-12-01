@@ -15,6 +15,7 @@ import {
   useUserPosts,
   useFollowers,
   useFollowing,
+  useEditUserProfilePicture,
 } from '../hooks/useProfile'
 import { User } from '../../models/user'
 import { Post } from '../../models/post'
@@ -33,6 +34,7 @@ vi.mock('../hooks/useProfile', () => ({
   useUserPosts: vi.fn(),
   useFollowers: vi.fn(),
   useFollowing: vi.fn(),
+  useEditUserProfilePicture: vi.fn(),
 }))
 
 // -- Test Data --
@@ -156,7 +158,7 @@ describe('ProfilePage Component', () => {
 
   it('should display a loading message if any hook is loading', () => {
     renderComponent({ userProfileState: { isLoading: true } })
-    expect(screen.getByText('Loading profile...')).toBeInTheDocument()
+    expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
   })
 
   it('should display an error message if fetching the profile fails', () => {
