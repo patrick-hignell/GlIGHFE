@@ -33,7 +33,7 @@ function Post({ post }: Props) {
   }
 
   return (
-    <div className="mb-4 flex flex-col items-center rounded-lg bg-white p-4 shadow-md">
+    <div className="mb-4 flex max-w-[100rem] flex-col items-center rounded-lg bg-white p-4 shadow-md">
       {user?.sub === post.userId && isAuthenticated ? (
         <div className="flex w-full justify-between">
           <div></div>

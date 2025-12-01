@@ -128,7 +128,7 @@ function ProfilePage() {
       {/* User Posts Section */}
       <h2 className="mb-4 text-2xl font-semibold text-white">Posts</h2>
       {userPosts && userPosts.length > 0 ? (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="flex flex-col gap-4 md:grid-cols-2 lg:grid-cols-3">
           {userPosts.map((post) => (
             <Post key={post.id} post={post} />
           ))}
