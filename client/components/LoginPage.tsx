@@ -5,7 +5,6 @@ import { FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { IfAuthenticated, IfNotAuthenticated } from './Authenticated'
 import { UserData } from '../../models/user'
-import Loading from './Loading'
 // import { PhotoUploader } from './PhotoUploader'
 
 function LoginPage() {
@@ -29,11 +28,7 @@ function LoginPage() {
     },
   })
 
-  const {
-    data: userData,
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data: userData } = useQuery({
     queryKey: ['user', authId],
     queryFn: () => getUserById(authId),
     enabled: isAuthenticated && !!authId,

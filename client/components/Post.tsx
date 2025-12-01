@@ -11,7 +11,7 @@ interface Props {
 
 function Post({ post }: Props) {
   const { mutate } = useEditUserProfilePicture()
-  const { user, isAuthenticated } = useAuth0()
+  const { user } = useAuth0()
   const navigate = useNavigate()
   // const options: Intl.DateTimeFormatOptions = {
   //   day: '2-digit',
