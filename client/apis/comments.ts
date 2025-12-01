@@ -5,7 +5,6 @@ const rootUrl = '/api/v1/comments'
 
 export async function getCommentsByPostId(id: number) {
   const response = await request.get(`${rootUrl}/posts/${id}`)
-  console.log(response.body)
   return response.body
 }
 
