@@ -5,9 +5,9 @@ export async function up(knex) {
   return knex.schema.createTable('likes', (table) => {
     table.increments('id').primary()
     table
-      .string('user_id')
+      .string('user_auth_id')
       .notNullable()
-      .references('users.id')
+      .references('users.auth_id')
       .onDelete('CASCADE')
     table.integer('post_id').references('posts.id').onDelete('CASCADE')
     table.integer('reply_id').references('comments.id').onDelete('CASCADE')
