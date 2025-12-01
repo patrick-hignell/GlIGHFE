@@ -108,13 +108,11 @@ export async function getFollowers(
   authId: string,
   testDb?: Knex,
 ): Promise<User[]> {
-  const connection = testDb || db // Use testDb if provided, otherwise use default db
-  const userIdQuery = connection('users').select('id').where('auth_id', authId)
-
+  const connection = testDb || db
   const followers = await connection('followers')
-    .join('users', 'followers.follower_id', 'users.id')
-    .where('followers.following_id', userIdQuery)
-    .select('users.id', 'users.name', 'users.profile_picture')
+    .join('users', 'followers.follower_id', 'users.auth_id')
+    .where('followers.following_id', authId)
+    .select('users.auth_id', 'users.id', 'users.name', 'users.profile_picture')
   return followers
 }
 
@@ -123,12 +121,10 @@ export async function getFollowing(
   authId: string,
   testDb?: Knex,
 ): Promise<User[]> {
-  const connection = testDb || db // Use testDb if provided, otherwise use default db
-  const userIdQuery = connection('users').select('id').where('auth_id', authId)
-
+  const connection = testDb || db
   const following = await connection('followers')
-    .join('users', 'followers.following_id', 'users.id')
-    .where('followers.follower_id', userIdQuery)
-    .select('users.id', 'users.name', 'users.profile_picture')
+    .join('users', 'followers.following_id', 'users.auth_id')
+    .where('followers.follower_id', authId)
+    .select('users.auth_id', 'users.id', 'users.name', 'users.profile_picture')
   return following
 }

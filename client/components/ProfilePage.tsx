@@ -1,10 +1,13 @@
 import { useParams } from 'react-router'
+import { useState } from 'react'
+import 'bootstrap-icons/font/bootstrap-icons.css'
 import {
   useUserProfile,
   useUserPosts,
   useFollowers,
   useFollowing,
 } from '../hooks/useProfile.js'
+import FollowListModal from './FollowListModal'
 import Post from './Post.js'
 import Loading from './Loading.js'
 import { Image } from 'cloudinary-react'
@@ -39,6 +42,10 @@ function ProfilePage() {
     isError: isFollowingError,
     error: followingError,
   } = useFollowing(authId || '')
+
+  const [modalView, setModalView] = useState<'followers' | 'following' | null>(
+    null,
+  )
 
   if (!authId) {
     return <p className="text-red-500">Error: User ID not provided in URL.</p>
@@ -85,11 +92,6 @@ function ProfilePage() {
     <div className="container mx-auto p-4">
       {/* Profile Header */}
       <div className="mb-6 flex items-center space-x-4 rounded-lg bg-gray-800 p-4 shadow-md">
-        {/* <img
-          src={userProfile.profile_picture || 'https://via.placeholder.com/150'} // Placeholder image
-          alt={`${userProfile.name}'s profile`}
-          className="h-24 w-24 rounded-full border-4 border-purple-500 object-cover"
-        /> */}
         <div className="mb-6 flex h-48 w-48 items-center space-x-4 overflow-hidden rounded-[100%] bg-gray-900 p-4 shadow-md">
           {userProfile.profile_picture && (
             <Image
@@ -104,19 +106,23 @@ function ProfilePage() {
           <p className="italic text-gray-300">
             {userProfile.bio || 'No bio provided.'}
           </p>
+
+          {/* Post, Followers, and Following Interactions */}
           <div className="mt-2 flex space-x-4">
-            <span className="text-gray-400">
-              <strong className="text-white">{userPosts?.length || 0}</strong>{' '}
-              Posts
-            </span>
-            <span className="text-gray-400">
-              <strong className="text-white">{followers?.length || 0}</strong>{' '}
-              Followers
-            </span>
-            <span className="text-gray-400">
-              <strong className="text-white">{following?.length || 0}</strong>{' '}
-              Following
-            </span>
+            <button
+              className="flex items-center space-x-1 text-white hover:underline focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
+              onClick={() => setModalView('followers')}
+              aria-label="View Followers"
+            >
+              <i className="bi bi-people text-2xl"></i>
+            </button>
+            <button
+              className="flex items-center space-x-1 text-white hover:underline focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
+              onClick={() => setModalView('following')}
+              aria-label="View Following"
+            >
+              <i className="bi bi-person-check text-2xl"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -133,13 +139,25 @@ function ProfilePage() {
         <p className="text-gray-400">No posts yet.</p>
       )}
 
-      {/* Placeholder for Liked Posts (Stretch Goal) */}
-      <h2 className="mb-4 mt-8 text-2xl font-semibold text-white">
-        Liked Posts (Stretch Goal)
-      </h2>
-      <p className="text-gray-400">
-        Functionality to display liked posts will be added here.
-      </p>
+      {/* Follower List Modal */}
+      {followers && (
+        <FollowListModal
+          isOpen={modalView === 'followers'}
+          onClose={() => setModalView(null)}
+          title="Followers"
+          users={followers}
+        />
+      )}
+
+      {/* Following List Modal */}
+      {following && (
+        <FollowListModal
+          isOpen={modalView === 'following'}
+          onClose={() => setModalView(null)}
+          title="Following"
+          users={following}
+        />
+      )}
     </div>
   )
 }

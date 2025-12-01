@@ -4,14 +4,14 @@
 export async function up(knex) {
   return knex.schema.createTable('followers', (table) => {
     table
-      .integer('follower_id')
+      .string('follower_id')
       .notNullable()
-      .references('users.id')
+      .references('users.auth_id')
       .onDelete('CASCADE')
     table
-      .integer('following_id')
+      .string('following_id')
       .notNullable()
-      .references('users.id')
+      .references('users.auth_id')
       .onDelete('CASCADE')
     table.primary(['follower_id', 'following_id'])
   })
