@@ -26,7 +26,7 @@ export async function seed(knex) {
       name: 'Patrick',
       bio: '',
       font: '',
-      profile_picture: '',
+      profile_picture: 'uploads/kittenpizza-1764290477302',
     },
     {
       id: 4,
