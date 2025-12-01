@@ -1,6 +1,7 @@
 import useEmblaCarousel from 'embla-carousel-react'
 import type { EmblaOptionsType } from 'embla-carousel'
 import { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 
 type PropType = {
   textBoxes: string[]
@@ -11,6 +12,7 @@ const EmblaCarousel = (props: PropType) => {
   const { textBoxes = [], options } = props // Added default
   const [emblaRef, emblaApi] = useEmblaCarousel(options)
   const [currentIndex, setCurrentIndex] = useState(0)
+  const navigate = useNavigate()
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return
@@ -48,7 +50,8 @@ const EmblaCarousel = (props: PropType) => {
       {isLastSlide && (
         <button
           onClick={() => {
-            window.location.href = '/feed'
+            navigate('/feed')
+            // another useQuery maybe to check the user is in the database
           }}
           className="hover:bg-success-strong focus:ring-success-medium shadow-xs text-md ml-7 box-border rounded-xl border-2 border-black bg-lime-400 p-0.5 px-4 py-2.5 font-bold leading-5 focus:outline-none focus:ring-4"
         >

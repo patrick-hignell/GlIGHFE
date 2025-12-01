@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import EmblaCarousel from './Embla'
 
 function Onboarding() {
@@ -17,14 +17,11 @@ function Onboarding() {
     'Gellig-huiffer',
     'Jelly-geef',
   ]
-  const [Glyph, setGlyph] = useState(glyphArray)
-  // const Glyph: string = 'Glyph-ee' // make setState to change through different pronounciations!!!
+  const Glyph = glyphArray
   const currentGlyph = Glyph[random(0, Glyph.length - 1)]
 
   useEffect(() => {
-    // Lock scrolling when component mounts
     document.body.style.overflow = 'hidden'
-    // Unlock scrolling when component unmounts
     return () => {
       document.body.style.overflow = 'unset'
     }

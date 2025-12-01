@@ -58,7 +58,9 @@ function LoginPage() {
     })
   }
 
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = evt.target
     setFormState((prev) => ({
       ...prev,
@@ -82,13 +84,13 @@ function LoginPage() {
     }
   }
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+  //  if (isLoading) {
+  //     return <div>Loading...</div>
+  //   }
 
-  if (isError) {
-    return <div>Error loading user data</div>
-  }
+  //   if (isError) {
+  //     return <div>Error loading user data</div>
+  //   } i
 
   return (
     <div className="flex flex-col items-center">
