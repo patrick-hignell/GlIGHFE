@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router'
 import Loading from './Loading'
 import { PostData } from '../../models/post'
 import { useAddPost } from '../hooks/usePosts'
+import GraphemeSplitter from 'grapheme-splitter'
 import EmojiPicker, {
   EmojiStyle,
   Categories,
@@ -18,6 +19,7 @@ function UploadPage() {
 
   const { user, isAuthenticated } = useAuth0()
   const navigate = useNavigate()
+  const splitter = new GraphemeSplitter()
 
   const [formData, setFormData] = useState<Omit<PostData, 'userId'>>({
     message: '',
@@ -44,10 +46,16 @@ function UploadPage() {
   }
 
   const onEmojiClick = (emojiObject: EmojiClickData) => {
-    setFormData((previousData) => ({
-      ...previousData,
-      message: previousData.message + emojiObject.emoji,
-    }))
+    setFormData((previousData) =>
+      splitter.countGraphemes(
+        String(previousData.message + emojiObject.emoji),
+      ) <= charLimit
+        ? {
+            ...previousData,
+            message: previousData.message + emojiObject.emoji,
+          }
+        : { ...previousData },
+    )
   }
 
   // const handleLimitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
