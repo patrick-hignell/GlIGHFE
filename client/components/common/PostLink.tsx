@@ -6,7 +6,7 @@ interface PostLinkProps {
   onClick?: () => void
 }
 
-export const PostLink: React.FC<PostLinkProps> = ({
+const PostLink: React.FC<PostLinkProps> = ({
   children,
   onClick,
   id,
