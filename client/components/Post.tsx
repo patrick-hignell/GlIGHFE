@@ -61,7 +61,7 @@ function Post({ post }: Props) {
           <div></div>
         )}
       </div>
-      <hr className="w-full rounded-full border border-[#cbe4b298]" />
+      <hr className="mb-2 h-px  w-full bg-[#caf3a2]" />
       <PostLink id={post.id}>
         {post.imageUrl && (
           <Image
