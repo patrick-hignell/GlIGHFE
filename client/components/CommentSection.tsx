@@ -117,26 +117,21 @@ export function CommentSection({ postId }: Props) {
 
   return (
     <div className="w-full">
-      {isAuthenticated && (
-        <div className="m-2 rounded-lg border border-[#c7ef9f] bg-white p-2">
-          <Collapsible.Root open={commentsOpen} onOpenChange={setCommentsOpen}>
-            <Collapsible.CollapsibleTrigger asChild>
-              <button>
-                <i className="bi bi-chat-left-dots-fill relative top-0.5  text-2xl"></i>
-              </button>
-            </Collapsible.CollapsibleTrigger>
-            <Collapsible.Content>
-              {comments.map((comment: CommentWithAuthor) => (
-                <Comment key={comment.id} commentData={comment} />
-              ))}
-              <div className="mb-5 mt-2">
-                <form
-                  onSubmit={(e) => {
-                    handleSubmit(e)
-                    setShowPicker(false)
-                  }}
-                >
-                  <div className="mb-4 ml-20 mt-6 flex flex-row">
+      <div className=" rounded-lg border-2 border-[#9dc574b8] bg-white p-2">
+        <Collapsible.Root open={commentsOpen} onOpenChange={setCommentsOpen}>
+          <Collapsible.CollapsibleTrigger asChild>
+            <button>
+              <i className="bi bi-chat-left-dots-fill relative top-0.5  text-2xl"></i>
+            </button>
+          </Collapsible.CollapsibleTrigger>
+          <Collapsible.Content>
+            {comments.map((comment: CommentWithAuthor) => (
+              <Comment key={comment.id} commentData={comment} />
+            ))}
+            <div className="mb-5 mt-2">
+              {isAuthenticated && (
+                <form onSubmit={handleSubmit}>
+                  <div className="mb-4 mt-6 flex flex-row">
                     <input
                       type="text"
                       className=" w-full rounded-lg border border-[#c7ef9f] p-2 focus:outline-[#97d558]"
@@ -153,40 +148,40 @@ export function CommentSection({ postId }: Props) {
                       😀
                     </button>
                     <button type="submit">
-                      <i className="bi bi-send relative top-0.5 ml-2 mr-2 text-xl"></i>
+                      <i className="bi bi-send ml-2 mr-2 text-xl"></i>
                     </button>
                   </div>
                 </form>
-                {showPicker && (
-                  <EmojiPicker
-                    categories={[
-                      { category: 'suggested' as Categories, name: '' },
-                      { category: 'smileys_people' as Categories, name: '' },
-                      { category: 'animals_nature' as Categories, name: '' },
-                      { category: 'food_drink' as Categories, name: '' },
-                      { category: 'travel_places' as Categories, name: '' },
-                      { category: 'activities' as Categories, name: '' },
-                      { category: 'objects' as Categories, name: '' },
-                      { category: 'symbols' as Categories, name: '' },
-                      { category: 'flags' as Categories, name: '' },
-                    ]}
-                    previewConfig={{
-                      defaultEmoji: '1f60a',
-                      defaultCaption: '',
-                      showPreview: false,
-                    }}
-                    className=""
-                    width="full"
-                    onEmojiClick={onEmojiClick}
-                    emojiStyle={EmojiStyle.NATIVE}
-                    searchPlaceHolder=""
-                  />
-                )}
-              </div>
-            </Collapsible.Content>
-          </Collapsible.Root>
-        </div>
-      )}
+              )}
+              {showPicker && (
+                <EmojiPicker
+                  categories={[
+                    { category: 'suggested' as Categories, name: '' },
+                    { category: 'smileys_people' as Categories, name: '' },
+                    { category: 'animals_nature' as Categories, name: '' },
+                    { category: 'food_drink' as Categories, name: '' },
+                    { category: 'travel_places' as Categories, name: '' },
+                    { category: 'activities' as Categories, name: '' },
+                    { category: 'objects' as Categories, name: '' },
+                    { category: 'symbols' as Categories, name: '' },
+                    { category: 'flags' as Categories, name: '' },
+                  ]}
+                  previewConfig={{
+                    defaultEmoji: '1f60a',
+                    defaultCaption: '',
+                    showPreview: false,
+                  }}
+                  className=""
+                  width="full"
+                  onEmojiClick={onEmojiClick}
+                  emojiStyle={EmojiStyle.NATIVE}
+                  searchPlaceHolder=""
+                />
+              )}
+            </div>
+          </Collapsible.Content>
+        </Collapsible.Root>
+      </div>
     </div>
   )
 }

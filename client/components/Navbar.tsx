@@ -21,24 +21,24 @@ function Navbar() {
   // ]
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-10 flex items-center justify-around bg-gray-800 p-4 text-white shadow-lg">
+    <nav className="fixed bottom-0 left-0 right-0 z-10 flex w-screen items-center justify-around bg-[#7fa45a] p-1 text-white shadow-lg">
       <Link
         to="/feed"
-        className="flex flex-col items-center rounded-md p-2 transition-colors duration-200 hover:bg-gray-700"
+        className="flex flex-col items-center rounded-md p-2 transition-colors duration-200"
       >
         <img className="w-10" src="/images/feed.png" alt="feed" />
         {/* <span className="mt-1 text-xs">Feed</span> */}
       </Link>
       <Link
         to={user ? `/profile/${user.sub}` : '/'}
-        className="flex flex-col items-center rounded-md p-2 transition-colors duration-200 hover:bg-gray-700"
+        className="flex flex-col items-center rounded-md p-2 transition-colors duration-200"
       >
         <i className="bi bi-person-circle text-4xl"></i>
         {/* <span className="mt-1 text-xs">Profile</span> */}
       </Link>
       <Link
         to={isAuthenticated ? '/upload' : '/'}
-        className="flex flex-col items-center rounded-md p-2 transition-colors duration-200 hover:bg-gray-700"
+        className="flex flex-col items-center rounded-md p-2 transition-colors duration-200"
       >
         <i className="bi bi-upload text-4xl"></i>
         {/* <span className="mt-1 text-xs">Upload</span> */}
