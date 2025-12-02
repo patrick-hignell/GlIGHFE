@@ -206,22 +206,24 @@ function ProfilePage() {
   }
 
   return (
-    <div className="container mx-auto h-full p-4">
+    <div className="h-full">
       {/* Profile Header */}
-      <div className="mb-6 flex items-center justify-between space-x-4 rounded-lg bg-gray-800 p-6 shadow-md">
-        <div className="flex gap-4">
+      <div className="mb-4 flex w-screen items-center justify-between space-x-4 bg-[#b9db97] p-2 align-middle shadow-md">
+        <div className="flex gap-3">
           {/* Profile Picture */}
-          <div className="flex h-48 w-48 items-center space-x-4 overflow-hidden rounded-full bg-gray-900 p-2 shadow-md">
-            {userProfile.profile_picture && (
-              <Image
-                className="rounded-full"
-                cloudName="dfjgv0mp6"
-                publicId={userProfile.profile_picture}
-                width="300"
-                height="300"
-                crop="fill"
-              />
-            )}
+          <div className="grid place-items-center">
+            <div className="flex h-20 w-20 items-center space-x-4 overflow-hidden rounded-full shadow-md">
+              {userProfile.profile_picture && (
+                <Image
+                  className="rounded-full border-2 border-[#424242]"
+                  cloudName="dfjgv0mp6"
+                  publicId={userProfile.profile_picture}
+                  width="300"
+                  height="300"
+                  crop="fill"
+                />
+              )}
+            </div>
           </div>
           <div className="flex flex-col justify-center">
             {editMode ? (
@@ -248,24 +250,22 @@ function ProfilePage() {
                       id="name"
                       name="name"
                       placeholder=""
-                      className="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full rounded-lg border border-black px-3 py-2.5 text-sm"
+                      className="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full rounded-lg border border-black px-3 py-2 text-sm"
                       value={formState.name}
                       onChange={handleChange}
                       onClick={() => handleEmojiSelection('name')}
                     />
                     <button
-                      className="pl-4 text-2xl"
+                      className="pl-2 text-2xl"
                       type="button"
                       onClick={() => handleEmojiSelection('emoji')}
                     >
                       😀
                     </button>
                     <button type="submit">
-                      <i className="bi bi-send-fill pl-6 text-2xl text-white"></i>
+                      <i className="bi bi-send-fill pl-2 text-2xl text-black"></i>
                     </button>
                   </div>
-
-                  <br />
                   <div className="flex">
                     <label htmlFor="bio" className="sr-only">
                       Bio:
@@ -284,29 +284,29 @@ function ProfilePage() {
                 </form>
               </div>
             ) : (
-              <div className="flex flex-col gap-4">
-                <h1 className="text-3xl font-bold text-white">
+              <div className="flex flex-col gap-2">
+                <h1 className="-mb-2 text-3xl font-bold text-black">
                   {userProfile.name}
                 </h1>
-                <p className="text-gray-300">
+                <p className="italic text-gray-900">
                   {userProfile.bio || 'No bio provided.'}
                 </p>
               </div>
             )}
 
             {/* Followers, Following, and Follow/Unfollow buttons */}
-            <div className="mt-2 flex space-x-4">
+            <div className="flex space-x-4">
               {/* Followers/Following modal buttons */}
               <div className="flex space-x-4">
                 <button
-                  className="flex items-center space-x-1 text-white hover:underline focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
+                  className="flex items-center space-x-1 text-black hover:underline focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
                   onClick={() => setModalView('followers')}
                   aria-label="View Followers"
                 >
                   <i className="bi bi-people text-2xl"></i>
                 </button>
                 <button
-                  className="flex items-center space-x-1 text-white hover:underline focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
+                  className="flex items-center space-x-1 text-black hover:underline focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
                   onClick={() => setModalView('following')}
                   aria-label="View Following"
                 >
@@ -323,10 +323,10 @@ function ProfilePage() {
                   disabled={
                     followMutation.isPending || unfollowMutation.isPending
                   }
-                  className={`ml-4 rounded px-4 py-2 font-semibold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 ${
+                  className={`ml-4 rounded px-3 py-1 font-semibold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 ${
                     isFollowing
-                      ? 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500'
-                      : 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500'
+                      ? 'bg-[#d16009] text-white hover:bg-[#f9927d] focus:ring-gray-500'
+                      : 'bg-[#d848a8] text-white hover:bg-[#f03fb5] focus:ring-blue-500'
                   }`}
                 >
                   {followMutation.isPending || unfollowMutation.isPending ? (
@@ -357,7 +357,7 @@ function ProfilePage() {
               }}
             >
               <i
-                className={`bi ${editMode ? 'bi-pencil' : 'bi-pencil-fill'} text-2xl text-white `}
+                className={`bi ${editMode ? 'bi-pencil' : 'bi-pencil-fill'} text-black text-2xl  `}
               ></i>
             </button>
           )}
@@ -391,7 +391,7 @@ function ProfilePage() {
 
       {/* Posts Section */}
       {userPosts && userPosts.length > 0 ? (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 p-2">
           {userPosts.map((post) => (
             <Post key={post.id} post={post} editMode={editMode} />
           ))}
