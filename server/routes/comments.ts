@@ -46,8 +46,15 @@ router.post('/', async (req, res) => {
     await db.addComment(commentData)
     res.sendStatus(201)
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ message: 'Something went wrong posting comment' })
+    console.error(error)
+    if (error instanceof Error) {
+      res.status(500).json({
+        message: 'Something went wrong posting comment',
+        error: error.message,
+      })
+    } else {
+      res.status(500).json({ message: 'Something went wrong posting comment' })
+    }
   }
 })
 

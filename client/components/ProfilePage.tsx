@@ -206,7 +206,7 @@ function ProfilePage() {
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto h-full p-4">
       {/* Profile Header */}
       <div className="mb-6 flex items-center justify-between space-x-4 rounded-lg bg-gray-800 p-6 shadow-md">
         <div className="flex gap-4">

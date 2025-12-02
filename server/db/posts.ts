@@ -33,6 +33,23 @@ export async function getAllPostsWithAuthor(db = connection): Promise<Post[]> {
   return posts
 }
 
+export async function getPostbyIdWithAuthor(id: number): Promise<Post | undefined> {
+  const post = await db('posts')
+    .join('users', 'posts.user_id', 'users.auth_id')
+    .select(
+      'posts.id as id',
+      'posts.user_id as userId',
+      'users.name as userName',
+      'posts.image as imageUrl',
+      'posts.message',
+      'posts.date_added as dateAdded',
+      'users.profile_picture as profilePicture',
+    )
+    .where('posts.id', id)
+    .first()
+  return post
+}
+
 export async function addPost(post: PostData): Promise<Post> {
   const result = await db('posts')
     .insert({

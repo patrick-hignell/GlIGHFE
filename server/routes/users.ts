@@ -87,13 +87,34 @@ router.patch('/', async (req, res, next) => {
 })
 
 // POST /api/v1/users - Add a new user
-router.post('/', async (req, res, next) => {
+router.post('/', async (req, res) => {
   try {
-    const { authId, name, bio, font, profilePicture }: UserData = req.body
-    await addUser({ authId, name, bio, font, profilePicture })
-    res.sendStatus(201)
+    const userData: UserData = { ...req.body }
+    if (!userData.authId) {
+      return res.status(StatusCodes.BAD_REQUEST).send('AuthID is required')
+    }
+
+    if (!userData.name) {
+      userData.name = 'New User' // Provide a default name
+    }
+
+    const existingUser = await getUserProfile(userData.authId)
+    if (existingUser) {
+      return res.status(StatusCodes.CONFLICT).send('User already exists')
+    }
+
+    await addUser(userData)
+    res.sendStatus(StatusCodes.CREATED)
   } catch (err) {
-    next(err)
+    if (err instanceof Error) {
+      console.error(err.message)
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err.message)
+    } else {
+      console.error(err)
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .send('An unknown error occurred')
+    }
   }
 })
 

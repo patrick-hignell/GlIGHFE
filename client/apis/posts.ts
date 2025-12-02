@@ -17,6 +17,13 @@ export async function fetchAllPostsWithAuthor(): Promise<PostWithAuthor[]> {
   return response.body.posts as PostWithAuthor[]
 }
 
+export async function fetchPostByIdWithAuthor(
+  id: PostWithAuthor['id'],
+): Promise<PostWithAuthor> {
+  const response = await request.get(`${rootURL}/${id}/withAuthor`)
+  return response.body.post as PostWithAuthor
+}
+
 export async function addPost(post: PostData): Promise<Post> {
   const response = await request.post(`${rootURL}`).send(post)
   return response.body as Post

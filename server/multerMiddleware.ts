@@ -8,6 +8,8 @@ import path from 'node:path'
 dotenv.config()
 
 // const c2 = cloudinary.v2
+console.log('CLOUDINARY_CLOUD_NAME:', process.env.CLOUDINARY_CLOUD_NAME)
+console.log('CLOUDINARY_API_KEY:', process.env.CLOUDINARY_API_KEY)
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
