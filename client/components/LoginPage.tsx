@@ -4,9 +4,15 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { IfAuthenticated, IfNotAuthenticated } from './Authenticated'
-import { UserData } from '../../models/user'
+import { UserData, UserWithSelection } from '../../models/user'
 import Loading from './Loading'
-// import { PhotoUploader } from './PhotoUploader'
+import { PhotoUploader } from './PhotoUploader'
+import EmojiPicker, {
+  Categories,
+  EmojiClickData,
+  EmojiStyle,
+} from 'emoji-picker-react'
+import GraphemeSplitter from 'grapheme-splitter'
 
 function LoginPage() {
   const emptyFormState = {
@@ -15,12 +21,16 @@ function LoginPage() {
     bio: '',
     font: '',
     profilePicture: '',
-  } as UserData
+    emojis: false,
+    selection: 'name',
+  } as UserWithSelection
   const queryClient = useQueryClient()
   const { loginWithRedirect, isAuthenticated, user } = useAuth0()
   const navigate = useNavigate()
-  const [formState, setFormState] = useState<UserData>(emptyFormState)
-  // const [imageId, setImageId] = useState('')
+  const [formState, setFormState] = useState<UserWithSelection>(emptyFormState)
+  const charLimit = 30
+  const splitter = new GraphemeSplitter()
+  const [imageId, setImageId] = useState('')
   const authId = user?.sub ?? ''
   const createMutation = useMutation({
     mutationFn: (user: UserData) => createUser(user),
@@ -72,11 +82,43 @@ function LoginPage() {
     }))
   }
 
-  // function handleImageChange(newImage: string) {
-  //   setImageId(newImage)
-  //   console.log(newImage)
-  //   console.log(imageId)
-  // }
+  function handleImageChange(newImage: string) {
+    setImageId(newImage)
+    setFormState((prev) => ({
+      ...prev,
+      profilePicture: newImage,
+    }))
+    console.log(newImage)
+    console.log(imageId)
+  }
+
+  const onEmojiClick = (emojiObject: EmojiClickData) => {
+    setFormState((previousData) => {
+      const fieldToUpdate = previousData.selection === 'bio' ? 'bio' : 'name'
+      const currentValue = previousData[fieldToUpdate]
+
+      if (
+        splitter.countGraphemes(currentValue + emojiObject.emoji) <= charLimit
+      ) {
+        return {
+          ...previousData,
+          [fieldToUpdate]: currentValue + emojiObject.emoji,
+        }
+      }
+
+      return previousData
+    })
+  }
+
+  function handleEmojiSelection(target: string) {
+    setFormState((previousData) => {
+      return {
+        ...previousData,
+        selection: target === 'emoji' ? previousData.selection : target,
+        emojis: target === 'emoji' ? !previousData.emojis : previousData.emojis,
+      }
+    })
+  }
 
   const handleSubmit = async (evt: FormEvent) => {
     evt.preventDefault()
@@ -112,15 +154,26 @@ function LoginPage() {
               className="text-heading mb-2.5 mt-4 block text-sm font-medium"
             >
               Name:
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="User Name"
-                className="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full rounded-lg border border-black px-3 py-2.5 text-sm"
-                value={formState.name}
-                onChange={handleChange}
-              />
+              <div className="flex align-middle">
+                <input
+                  required
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="User Name"
+                  className="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full rounded-lg border border-black px-3 py-2.5 text-sm"
+                  value={formState.name}
+                  onChange={handleChange}
+                  onClick={() => handleEmojiSelection('name')}
+                />
+                <button
+                  className="pl-4 text-center text-2xl"
+                  type="button"
+                  onClick={() => handleEmojiSelection('emoji')}
+                >
+                  😀
+                </button>
+              </div>
             </label>
           </div>
           <div>
@@ -133,7 +186,7 @@ function LoginPage() {
                 name="bio"
                 id="bio"
                 placeholder="Bio"
-                rows={2}
+                rows={3}
                 className="overflow-wrap break-word bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full resize-none overflow-hidden rounded-lg border border-black px-3 py-2.5 text-sm"
                 value={formState.bio}
                 onChange={handleChange}
@@ -142,20 +195,48 @@ function LoginPage() {
                   e.currentTarget.style.height =
                     e.currentTarget.scrollHeight + 'px'
                 }}
+                onClick={() => handleEmojiSelection('bio')}
               ></textarea>
             </label>
-            {/* <label
+            <div>
+              {formState.emojis && (
+                <EmojiPicker
+                  categories={[
+                    { category: 'suggested' as Categories, name: '' },
+                    { category: 'smileys_people' as Categories, name: '' },
+                    { category: 'animals_nature' as Categories, name: '' },
+                    { category: 'food_drink' as Categories, name: '' },
+                    { category: 'travel_places' as Categories, name: '' },
+                    { category: 'activities' as Categories, name: '' },
+                    { category: 'objects' as Categories, name: '' },
+                    { category: 'symbols' as Categories, name: '' },
+                    { category: 'flags' as Categories, name: '' },
+                  ]}
+                  previewConfig={{
+                    defaultEmoji: '1f60a',
+                    defaultCaption: '',
+                    showPreview: false,
+                  }}
+                  className=""
+                  width="full"
+                  onEmojiClick={onEmojiClick}
+                  emojiStyle={EmojiStyle.NATIVE}
+                  searchPlaceHolder=""
+                />
+              )}
+            </div>
+            <label
               htmlFor="Profile Picture"
               className="text-heading mb-2.5 block text-sm font-medium"
             >
               Profile Picture:
-            <div>
-              <PhotoUploader
-                image={imageId}
-                onImageChange={handleImageChange}
-              />
-            </div>
-            </label> */}
+              <div>
+                <PhotoUploader
+                  image={imageId}
+                  onImageChange={handleImageChange}
+                />
+              </div>
+            </label>
           </div>
           <button
             type="submit"

@@ -40,7 +40,7 @@ export function PhotoUploader({ image, onImageChange }: Props) {
       {isError && <p>Something went wrong!</p>}
       {isPending && <Loading />}
       {!isError && !isPending && (
-        <button onClick={handleImageClick}>
+        <button type="button" onClick={handleImageClick}>
           {image && (
             <Image
               cloudName="dfjgv0mp6"
