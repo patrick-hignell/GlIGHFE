@@ -134,7 +134,6 @@ function ProfilePage() {
 
   const handleSubmit = async (evt: FormEvent) => {
     evt.preventDefault()
-    console.log(formState)
     if (user) {
       mutate({
         user: {
@@ -197,10 +196,7 @@ function ProfilePage() {
               <div>
                 <form onSubmit={handleSubmit}>
                   <div className="flex">
-                    <label
-                      htmlFor="name"
-                      className="text-heading visible mb-2.5 mt-4 hidden text-sm font-medium"
-                    >
+                    <label htmlFor="name" className="sr-only">
                       Name
                     </label>
                     <input
@@ -227,10 +223,7 @@ function ProfilePage() {
 
                   <br />
                   <div className="flex">
-                    <label
-                      htmlFor="bio"
-                      className="text-heading mb-2.5 hidden text-sm font-medium"
-                    >
+                    <label htmlFor="bio" className="sr-only">
                       Bio:
                     </label>
                     <input

@@ -19,7 +19,7 @@ export async function editUser(user: User): Promise<string> {
   return response.body
 }
 
-export async function editUserProfile(user: UserWithSelection): Promise<void> {
+export async function editUserProfile(user: UserWithSelection): Promise<User> {
   const response = await request
     .patch(`${rootURL}/users/profile`)
     .send({ user })
