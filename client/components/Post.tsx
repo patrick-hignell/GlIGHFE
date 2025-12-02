@@ -53,7 +53,7 @@ function Post({ post }: Props) {
             />
           </button>
         </div>
-        <h3 className="text-lg font-bold">{post.userName}</h3>
+        <h3 className="text-4xl font-bold">{post.userName}</h3>
         {post.userId === user?.sub ? (
           <button onClick={handleProfileClick} className="text-right">
             <i className="bi bi-person-circle text-3xl"></i>

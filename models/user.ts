@@ -15,7 +15,8 @@ export interface UserData {
   profilePicture?: string
 }
 
-export interface UserDataWithSelection extends UserData {
+export interface UserWithSelection extends UserData {
   selection: string
   emojis: boolean
+  id: number
 }

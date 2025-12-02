@@ -1,5 +1,5 @@
 import request from 'superagent'
-import { User, UserData } from '../../models/user'
+import { User, UserData, UserWithSelection } from '../../models/user'
 import { PostWithAuthor } from '../../models/post'
 
 // const rootURL = new URL(`/api/v1`, document.baseURI)  ||| updated to new code in ‹feature/profile-page› branch
@@ -16,6 +16,13 @@ export async function createUser(userData: UserData): Promise<void> {
 
 export async function editUser(user: User): Promise<string> {
   const response = await request.put(`${rootURL}/users`).send(user)
+  return response.body
+}
+
+export async function editUserProfile(user: UserWithSelection): Promise<void> {
+  const response = await request
+    .patch(`${rootURL}/users/profile`)
+    .send({ user })
   return response.body
 }
 

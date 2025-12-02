@@ -6,13 +6,14 @@ import {
   useUserPosts,
   useFollowers,
   useFollowing,
+  useEditUserProfile,
 } from '../hooks/useProfile.js'
 import FollowListModal from './FollowListModal'
 import Post from './Post.js'
 import Loading from './Loading.js'
 import { Image } from 'cloudinary-react'
 import { useAuth0 } from '@auth0/auth0-react'
-import { UserDataWithSelection } from '../../models/user.js'
+import { UserWithSelection } from '../../models/user.js'
 import EmojiPicker, {
   Categories,
   EmojiClickData,
@@ -22,6 +23,7 @@ import GraphemeSplitter from 'grapheme-splitter'
 
 function ProfilePage() {
   const emptyFormState = {
+    id: 0,
     authId: '',
     name: '',
     bio: '',
@@ -29,12 +31,11 @@ function ProfilePage() {
     profilePicture: '',
     selection: 'name',
     emojis: false,
-  } as UserDataWithSelection
+  } as UserWithSelection
   const { user } = useAuth0()
   const { authId } = useParams<{ authId: string }>()
   const [editMode, setEditMode] = useState(false)
-  const [formState, setFormState] =
-    useState<UserDataWithSelection>(emptyFormState)
+  const [formState, setFormState] = useState<UserWithSelection>(emptyFormState)
   const charLimit = 30
   const splitter = new GraphemeSplitter()
   const {
@@ -65,13 +66,15 @@ function ProfilePage() {
     error: followingError,
   } = useFollowing(authId || '')
 
+  const { mutate } = useEditUserProfile()
+
   useEffect(() => {
     if (userProfile) {
       setFormState((prev) => ({
         ...prev,
-        authId: userProfile.auth_id,
         bio: userProfile.bio,
         name: userProfile.name,
+        id: userProfile.id,
       }))
     }
   }, [userProfile])
@@ -131,19 +134,23 @@ function ProfilePage() {
 
   const handleSubmit = async (evt: FormEvent) => {
     evt.preventDefault()
-    // try {
-    //   await createMutation.mutateAsync(formState)
-    //   navigate('/onboarding')
-    // } catch (error) {
-    //   console.error('Failed to Update Profile:', error)
-    // }
+    console.log(formState)
+    if (user) {
+      mutate({
+        user: {
+          ...formState,
+          profilePicture: userProfile.profile_picture,
+          authId: user.sub as string,
+          id: userProfile.id,
+        },
+      })
+    }
   }
 
   const onEmojiClick = (emojiObject: EmojiClickData) => {
     setFormState((previousData) => {
       const fieldToUpdate = previousData.selection === 'bio' ? 'bio' : 'name'
       const currentValue = previousData[fieldToUpdate]
-      console.log(fieldToUpdate)
 
       if (
         splitter.countGraphemes(currentValue + emojiObject.emoji) <= charLimit
@@ -240,11 +247,11 @@ function ProfilePage() {
                 </form>
               </div>
             ) : (
-              <div>
+              <div className="flex flex-col gap-4">
                 <h1 className="text-3xl font-bold text-white">
                   {userProfile.name}
                 </h1>
-                <p className="italic text-gray-300">
+                <p className="text-gray-300">
                   {userProfile.bio || 'No bio provided.'}
                 </p>
               </div>

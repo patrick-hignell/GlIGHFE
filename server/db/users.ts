@@ -1,5 +1,5 @@
 import db from './connection.js'
-import { User, UserData } from '../../models/user.js'
+import { User, UserData, UserWithSelection } from '../../models/user.js'
 import { Post } from '../../models/post.js'
 import { Knex } from 'knex'
 
@@ -48,6 +48,18 @@ export async function editUser(user: User) {
       bio: user.bio,
       profile_picture: user.profile_picture,
       font: user.font,
+    })
+    .returning('*')
+  return result[0]
+}
+
+export async function editUserProfile(user: UserWithSelection) {
+  const result = await db('users')
+    .where('auth_id', user.authId)
+    .update({
+      profile_picture: user.profilePicture,
+      name: user.name,
+      bio: user.bio,
     })
     .returning('*')
   return result[0]

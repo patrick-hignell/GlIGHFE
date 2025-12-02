@@ -5,7 +5,7 @@ import {
   fetchFollowers,
   fetchFollowing,
 } from '../apis/users.js'
-import { User } from '../../models/user.js'
+import { User, UserWithSelection } from '../../models/user.js'
 import * as API from '../apis/users.ts'
 
 export function useUserProfile(authId: string) {
@@ -28,6 +28,23 @@ export function useEditUser() {
       // Refresh profile
       queryClient.invalidateQueries({
         queryKey: ['profile', variables.auth_id],
+      })
+    },
+  })
+}
+
+export function useEditUserProfile() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (variables: { user: UserWithSelection }) =>
+      API.editUserProfile(variables.user),
+    onSuccess: (_, variable) => {
+      // Refresh profile
+      queryClient.invalidateQueries({
+        queryKey: ['profile', variable.user.authId],
+      })
+      queryClient.invalidateQueries({
+        queryKey: ['profilePosts', variable.user.authId],
       })
     },
   })
