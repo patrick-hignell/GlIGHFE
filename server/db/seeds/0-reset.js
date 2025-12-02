@@ -13,14 +13,20 @@ export async function seed(knex) {
   //    is manually cleared to ensure that primary keys are reset to 1 after
   //    every seed run. This is crucial for predictable and repeatable tests.
 
-  // Changed up the format of what was happening before because postgres doesnt like it
-  
-  const tables = ['likes', 'comments', 'posts', 'followers', 'users'];
+  // Temporarily disable foreign key checks
+  await knex.raw('PRAGMA foreign_keys = OFF;')
 
-  // Truncate all tables and reset their identity counters
-  await knex.raw(`
-    TRUNCATE TABLE
-      ${tables.join(', ')}
-    RESTART IDENTITY CASCADE;
-  `);
+  const tables = ['users', 'posts', 'comments', 'likes', 'followers']
+
+  for (const table of tables) {
+    await knex(table).del()
+  }
+
+  // Reset the auto-incrementing sequence for all tables
+  await knex.raw(
+    `DELETE FROM sqlite_sequence WHERE name IN ('${tables.join("', '")}')`,
+  )
+
+  // Re-enable foreign key checks
+  await knex.raw('PRAGMA foreign_keys = ON;')
 }
