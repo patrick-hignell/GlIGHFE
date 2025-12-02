@@ -108,6 +108,7 @@ export async function getUserPosts(
       'posts.message',
       'posts.image as imageUrl',
       'posts.date_added as dateAdded',
+      'users.profile_picture as profilePicture',
     )
     .where('users.auth_id', authId)
     .orderBy('posts.date_added', 'desc')
@@ -146,7 +147,7 @@ export async function addFollow(
   followerId: string,
   followingId: string,
   testDb?: Knex,
-): Promise<number> {
+): Promise<number[]> {
   const connection = testDb || db
   return connection('followers').insert({
     follower_id: followerId,

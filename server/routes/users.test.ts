@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import request from 'supertest'
-import { Response, NextFunction, Request } from 'express'
+import { Response, NextFunction } from 'express'
 import { User } from '../../models/user'
 import { Post } from '../../models/post'
 
 // Mock checkJwt middleware - must be placed before server import
 vi.mock('../auth0.ts')
-import checkJwt from '../auth0'
+import checkJwt, { JwtRequest } from '../auth0'
 
 // Mock database functions
 vi.mock('../db/users', () => ({
@@ -144,7 +144,7 @@ describe('POST /api/v1/users/:id/follow', () => {
   beforeEach(() => {
     // Set authenticated user for follow tests
     vi.mocked(checkJwt).mockImplementation(
-      (req: Request, res: Response, next: NextFunction) => {
+      (req: JwtRequest, res: Response, next: NextFunction) => {
         req.auth = { sub: followerId }
         next()
         return Promise.resolve()
@@ -170,7 +170,7 @@ describe('POST /api/v1/users/:id/follow', () => {
 
   it('should return 400 when a user tries to follow themselves', async () => {
     vi.mocked(checkJwt).mockImplementationOnce(
-      (req: Request, res: Response, next: NextFunction) => {
+      (req: JwtRequest, res: Response, next: NextFunction) => {
         req.auth = { sub: followingId }
         next()
         return Promise.resolve()
@@ -187,7 +187,7 @@ describe('POST /api/v1/users/:id/follow', () => {
 
   it('should return 401 if unauthenticated', async () => {
     vi.mocked(checkJwt).mockImplementationOnce(
-      (req: Request, res: Response, next: NextFunction) => {
+      (req: JwtRequest, res: Response, next: NextFunction) => {
         req.auth = undefined
         next()
         return Promise.resolve()
@@ -234,7 +234,7 @@ describe('DELETE /api/v1/users/:id/follow', () => {
   beforeEach(() => {
     // Set authenticated user for unfollow tests
     vi.mocked(checkJwt).mockImplementation(
-      (req: Request, res: Response, next: NextFunction) => {
+      (req: JwtRequest, res: Response, next: NextFunction) => {
         req.auth = { sub: followerId }
         next()
         return Promise.resolve()
@@ -271,7 +271,7 @@ describe('DELETE /api/v1/users/:id/follow', () => {
 
   it('should return 401 if unauthenticated', async () => {
     vi.mocked(checkJwt).mockImplementationOnce(
-      (req: Request, res: Response, next: NextFunction) => {
+      (req: JwtRequest, res: Response, next: NextFunction) => {
         req.auth = undefined
         next()
         return Promise.resolve()

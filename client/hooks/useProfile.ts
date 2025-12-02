@@ -105,6 +105,9 @@ export function useFollowUser(currentAuthId?: string) {
         })
       }
     },
+    onError: (error) => {
+      console.error('Failed to follow user:', error)
+    },
   })
 }
 
@@ -127,6 +130,9 @@ export function useUnfollowUser(currentAuthId?: string) {
           queryKey: ['profileFollowing', currentAuthId],
         })
       }
+    },
+    onError: (error) => {
+      console.error('Failed to unfollow user:', error)
     },
   })
 }

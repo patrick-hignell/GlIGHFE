@@ -168,6 +168,16 @@ router.post('/:id/follow', checkJwt, async (req: JwtRequest, res, next) => {
       res.status(StatusCodes.CONFLICT).send('Already following this user')
     }
   } catch (err) {
+    // Check if it's a unique constraint violation (SQLite or PostgreSQL)
+    if (
+      err instanceof Error &&
+      (err.message.includes('UNIQUE constraint failed') ||
+        err.message.includes('duplicate key value'))
+    ) {
+      return res
+        .status(StatusCodes.CONFLICT)
+        .send('Already following this user')
+    }
     next(err)
   }
 })

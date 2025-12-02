@@ -43,7 +43,7 @@ function ProfilePage() {
   const splitter = new GraphemeSplitter()
   const currentAuthId = user?.sub
 
-  // Initialize follow/unfollow mutations with current user's authId for cache invalidation
+  // Initialise follow/unfollow mutations with current user's authId for cache invalidation
   const followMutation = useFollowUser(currentAuthId)
   const unfollowMutation = useUnfollowUser(currentAuthId)
 
@@ -139,25 +139,19 @@ function ProfilePage() {
   // Check if current user is following this profile
   const isFollowing = followers?.some((f) => f.auth_id === currentAuthId)
 
-  // Follow button handler
-  const handleFollow = async () => {
+  // Combined handler for follow/unfollow actions
+  const handleFollowAction = async (action: 'follow' | 'unfollow') => {
     try {
       const token = await getAccessTokenSilently()
       if (!authId) return
-      followMutation.mutate({ authIdToFollow: authId, token })
-    } catch (error) {
-      console.error('Failed to follow user:', error)
-    }
-  }
 
-  // Unfollow button handler
-  const handleUnfollow = async () => {
-    try {
-      const token = await getAccessTokenSilently()
-      if (!authId) return
-      unfollowMutation.mutate({ authIdToUnfollow: authId, token })
+      if (action === 'follow') {
+        followMutation.mutate({ authIdToFollow: authId, token })
+      } else {
+        unfollowMutation.mutate({ authIdToUnfollow: authId, token })
+      }
     } catch (error) {
-      console.error('Failed to unfollow user:', error)
+      console.error(`Failed to ${action} user:`, error)
     }
   }
 
@@ -311,7 +305,9 @@ function ProfilePage() {
               {/* Follow/Unfollow button - only shown when viewing another user's profile */}
               {currentAuthId && currentAuthId !== authId && (
                 <button
-                  onClick={isFollowing ? handleUnfollow : handleFollow}
+                  onClick={() =>
+                    handleFollowAction(isFollowing ? 'unfollow' : 'follow')
+                  }
                   disabled={
                     followMutation.isPending || unfollowMutation.isPending
                   }
