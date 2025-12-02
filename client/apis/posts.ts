@@ -28,3 +28,8 @@ export async function addPost(post: PostData): Promise<Post> {
   const response = await request.post(`${rootURL}`).send(post)
   return response.body as Post
 }
+
+export async function deletePost(post: Post): Promise<Post> {
+  const response = await request.delete(`${rootURL}`).send(post)
+  return response.body as Post
+}

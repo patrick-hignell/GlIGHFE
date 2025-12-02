@@ -4,14 +4,17 @@ import { Image } from 'cloudinary-react'
 import { useEditUserProfilePicture } from '../hooks/useProfile'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useNavigate } from 'react-router'
+import { useDeletePost } from '../hooks/usePosts'
 import PostLink from './common/PostLink'
 
 interface Props {
   post: PostWithAuthor
+  editMode?: boolean
 }
 
-function Post({ post }: Props) {
+function Post({ post, editMode = false }: Props) {
   const { mutate } = useEditUserProfilePicture()
+  const { mutate: deleteMutate } = useDeletePost()
   const { user } = useAuth0()
   const navigate = useNavigate()
   // const options: Intl.DateTimeFormatOptions = {
@@ -38,6 +41,10 @@ function Post({ post }: Props) {
     navigate(`/profile/${post.userId}`)
   }
 
+  function handleDeleteClick() {
+    deleteMutate(post)
+  }
+
   return (
     <div className="mb-4 flex max-w-[100rem] flex-col items-center rounded-lg bg-white p-4 shadow-md">
       <div className="flex w-full justify-between pb-4">
@@ -55,10 +62,15 @@ function Post({ post }: Props) {
           </button>
         </div>
         <h3 className="text-4xl font-bold">{post.userName}</h3>
-        {post.userId === user?.sub ? (
-          <button onClick={handleProfileClick} className="text-right">
-            <i className="bi bi-person-circle text-3xl"></i>
-          </button>
+        {editMode ? (
+          <div>
+            <button onClick={handleProfileClick} className="text-right">
+              <i className="bi bi-person-circle text-3xl"></i>
+            </button>
+            <button onClick={handleDeleteClick} className="text-right">
+              <i className="bi bi-trash-fill text-3xl"></i>
+            </button>
+          </div>
         ) : (
           <div></div>
         )}

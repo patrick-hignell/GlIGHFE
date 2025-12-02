@@ -17,15 +17,17 @@ export async function getCommentsByUserId(id: number): Promise<Comment[]> {
 
 export async function addComment(commentData: CommentData) {
   // console.log(commentData)
-  const response = await request.post(`${rootUrl}`).send(commentData)
+  await request.post(`${rootUrl}`).send(commentData)
   // return response.body
 }
 
 export async function editComment(id: number, comment: Comment) {
-  const response = await request.patch(`${rootUrl}/${id}`).send(comment)
+  await request.patch(`${rootUrl}/${id}`).send(comment)
   // return response.body
 }
 
-export async function deleteComment(id: number) {
-  return await request.delete(`${rootUrl}/${id}`)
+export async function deleteComment(comment: Comment) {
+  // console.log(comment)
+  const response = await request.delete(`${rootUrl}`).send(comment)
+  return response.body as Comment
 }

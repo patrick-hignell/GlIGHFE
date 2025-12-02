@@ -14,7 +14,12 @@ import { usePostsWithAuthor } from '../hooks/usePosts'
 import { PostWithAuthor } from '../../models/post'
 
 // Mock hooks
-vi.mock('../hooks/usePosts')
+vi.mock('../hooks/usePosts', () => ({
+  usePostsWithAuthor: vi.fn(),
+  useDeletePost: vi.fn(() => ({
+    mutate: vi.fn(),
+  })),
+}))
 vi.mock('../hooks/useProfile', () => ({
   useEditUserProfilePicture: vi.fn(() => ({ mutate: vi.fn() })),
 }))

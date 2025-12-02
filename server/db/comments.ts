@@ -24,6 +24,7 @@ export async function getCommentsByPostId(postId: number) {
       'users.name as userName',
       'users.profile_picture as profilePicture',
     )
+
   return matchingComments
 }
 
@@ -63,6 +64,7 @@ export async function updateComment(commentId: number, commentData: Comment) {
 
 //DELETE
 
-export async function deleteComment(commentId: number) {
-  return await db('comments').where('id', commentId).del()
+export async function deleteComment(comment: Comment): Promise<Comment> {
+  await db('comments').where('id', comment.id).delete().returning('*')
+  return comment
 }

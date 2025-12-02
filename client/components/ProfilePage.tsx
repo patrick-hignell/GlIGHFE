@@ -226,7 +226,19 @@ function ProfilePage() {
           <div className="flex flex-col justify-center">
             {editMode ? (
               <div>
-                <form onSubmit={handleSubmit}>
+                <form
+                  onSubmit={(e) => {
+                    handleSubmit(e)
+                    setFormState((previousData) => {
+                      return {
+                        ...previousData,
+                        emojis: false,
+                        selection: 'name',
+                      }
+                    })
+                    setEditMode(false)
+                  }}
+                >
                   <div className="flex">
                     <label htmlFor="name" className="sr-only">
                       Name
@@ -276,7 +288,7 @@ function ProfilePage() {
                 <h1 className="text-3xl font-bold text-white">
                   {userProfile.name}
                 </h1>
-                <p className="italic text-gray-300">
+                <p className="text-gray-300">
                   {userProfile.bio || 'No bio provided.'}
                 </p>
               </div>
@@ -332,7 +344,18 @@ function ProfilePage() {
         {/* Edit button - only visible on own profile */}
         <div className="flex flex-col justify-start self-start">
           {user?.sub === authId && (
-            <button onClick={() => setEditMode((prevMode) => !prevMode)}>
+            <button
+              onClick={() => {
+                setEditMode((prevMode) => !prevMode)
+                setFormState((previousData) => {
+                  return {
+                    ...previousData,
+                    emojis: false,
+                    selection: 'name',
+                  }
+                })
+              }}
+            >
               <i
                 className={`bi ${editMode ? 'bi-pencil' : 'bi-pencil-fill'} text-2xl text-white `}
               ></i>
@@ -370,11 +393,11 @@ function ProfilePage() {
       {userPosts && userPosts.length > 0 ? (
         <div className="flex flex-col gap-4">
           {userPosts.map((post) => (
-            <Post key={post.id} post={post} />
+            <Post key={post.id} post={post} editMode={editMode} />
           ))}
         </div>
       ) : (
-        <p className="text-gray-400">No posts yet.</p>
+        <p className="hidden text-gray-400">No posts yet.</p>
       )}
 
       {/* Follow List Modals */}

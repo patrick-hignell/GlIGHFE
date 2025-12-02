@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { User } from '../../models/user'
 import UserProfileLink from './common/UserProfileLink'
-
+import { Image } from 'cloudinary-react'
 interface FollowListModalProps {
   isOpen: boolean
   onClose: () => void
@@ -107,11 +107,17 @@ const FollowListModal: React.FC<FollowListModalProps> = ({
                 onClick={onClose}
                 className="flex items-center space-x-4 border-b py-2 last:border-b-0 hover:bg-gray-50"
               >
-                <img
-                  src={user.profile_picture || '/images/placeholder-avatar.png'}
-                  alt={`${user.name}'s profile`}
-                  className="h-10 w-10 rounded-full bg-gray-200 object-cover"
-                />
+                <div className="flex h-16 w-16 items-center justify-center space-x-4 overflow-hidden rounded-full bg-gray-900 p-1 shadow-md">
+                  <Image
+                    className="rounded-full"
+                    cloudName="dfjgv0mp6"
+                    publicId={user.profile_picture}
+                    alt={user.name + "'s profile"}
+                    width="300"
+                    height="300"
+                    crop="fill"
+                  />
+                </div>
                 <p className="font-medium text-gray-900">{user.name}</p>
               </UserProfileLink>
             ))

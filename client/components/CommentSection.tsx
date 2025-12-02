@@ -98,7 +98,7 @@ export function CommentSection({ postId }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (authId) {
+    if (authId && formData.message.length > 0) {
       const newComment: CommentData = {
         postId: postId,
         userId: authId,
@@ -130,7 +130,12 @@ export function CommentSection({ postId }: Props) {
                 <Comment key={comment.id} commentData={comment} />
               ))}
               <div className="mb-5 mt-2">
-                <form onSubmit={handleSubmit}>
+                <form
+                  onSubmit={(e) => {
+                    handleSubmit(e)
+                    setShowPicker(false)
+                  }}
+                >
                   <div className="mb-4 ml-20 mt-6 flex flex-row">
                     <input
                       type="text"
