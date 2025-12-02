@@ -4,9 +4,15 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { IfAuthenticated, IfNotAuthenticated } from './Authenticated'
-import { UserData } from '../../models/user'
+import { UserData, UserWithSelection } from '../../models/user'
 import Loading from './Loading'
 import { PhotoUploader } from './PhotoUploader'
+import EmojiPicker, {
+  Categories,
+  EmojiClickData,
+  EmojiStyle,
+} from 'emoji-picker-react'
+import GraphemeSplitter from 'grapheme-splitter'
 
 function LoginPage() {
   const emptyFormState = {
@@ -15,11 +21,15 @@ function LoginPage() {
     bio: '',
     font: '',
     profilePicture: '',
-  } as UserData
+    emojis: false,
+    selection: 'name'
+  } as UserWithSelection
   const queryClient = useQueryClient()
   const { loginWithRedirect, isAuthenticated, user } = useAuth0()
   const navigate = useNavigate()
-  const [formState, setFormState] = useState<UserData>(emptyFormState)
+  const [formState, setFormState] = useState<UserWithSelection>(emptyFormState)
+  const charLimit = 30
+  const splitter = new GraphemeSplitter()
   const [imageId, setImageId] = useState('')
   const authId = user?.sub ?? ''
   const createMutation = useMutation({
