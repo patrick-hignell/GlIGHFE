@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 
-interface UserProfileLinkProps {
+interface PostLinkProps {
   children: React.ReactNode
   id: number
   onClick?: () => void
