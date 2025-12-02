@@ -18,6 +18,7 @@ import {
   useFollowUser,
   useUnfollowUser,
   useEditUserProfilePicture,
+  useEditUserProfile,
 } from '../hooks/useProfile'
 import { useAuth0 } from '@auth0/auth0-react'
 import { User } from '../../models/user'
@@ -106,6 +107,10 @@ describe('ProfilePage Component', () => {
       isPending: false,
     } as never)
     vi.mocked(useUnfollowUser).mockReturnValue({
+      mutate: vi.fn(),
+      isPending: false,
+    } as never)
+    vi.mocked(useEditUserProfile).mockReturnValue({
       mutate: vi.fn(),
       isPending: false,
     } as never)
