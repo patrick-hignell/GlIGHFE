@@ -35,13 +35,15 @@ export async function getCommentsByUserId(userId: string) {
 //ADD
 export async function addComment(commentData: CommentData) {
   const { postId, userId, image, message, font } = commentData
-  const [result] = await db('comments').insert({
-    post_id: postId,
-    user_id: userId,
-    image,
-    message,
-    font,
-  })
+  const [result] = await db('comments')
+    .insert({
+      post_id: postId,
+      user_id: userId,
+      image,
+      message,
+      font,
+    })
+    .returning('id')
   return result
 }
 
