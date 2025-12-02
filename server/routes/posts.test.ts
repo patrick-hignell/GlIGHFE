@@ -6,6 +6,7 @@ import server from '../server' // Import your Express server
 // This ensures our API test doesn't actually hit the database
 vi.mock('../db/posts', () => ({
   getAllPosts: vi.fn(),
+  getAllPostsWithAuthor: vi.fn(),
 }))
 
 import * as db from '../db/posts' // Import the mocked module
@@ -72,5 +73,63 @@ describe('GET /api/v1/posts', () => {
     expect(res.statusCode).toBe(500)
     expect(res.body.message).toBe('Something went wrong')
     expect(db.getAllPosts).toHaveBeenCalledOnce()
+  })
+})
+
+describe('GET /api/v1/posts/withAuthor with pagination', () => {
+  it('should pass limit and offset to database function', async () => {
+    const mockPosts = [
+      {
+        id: 1,
+        userId: '1',
+        userName: 'User1',
+        message: 'Post 1',
+        imageUrl: '',
+        dateAdded: '',
+        profilePicture: '',
+      },
+      {
+        id: 2,
+        userId: '2',
+        userName: 'User2',
+        message: 'Post 2',
+        imageUrl: '',
+        dateAdded: '',
+        profilePicture: '',
+      },
+    ]
+
+    vi.mocked(db.getAllPostsWithAuthor).mockResolvedValue(mockPosts)
+
+    const res = await request(server).get(
+      '/api/v1/posts/withAuthor?limit=10&offset=20',
+    )
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body.posts).toEqual(mockPosts)
+    // CRITICAL: Verify function called with correct pagination params
+    expect(db.getAllPostsWithAuthor).toHaveBeenCalledWith(10, 20)
+  })
+
+  it('should use default pagination values when not provided', async () => {
+    vi.mocked(db.getAllPostsWithAuthor).mockResolvedValue([])
+
+    const res = await request(server).get('/api/v1/posts/withAuthor')
+
+    expect(res.statusCode).toBe(200)
+    // Should default to limit=10, offset=0
+    expect(db.getAllPostsWithAuthor).toHaveBeenCalledWith(10, 0)
+  })
+
+  it('should handle invalid pagination parameters gracefully', async () => {
+    vi.mocked(db.getAllPostsWithAuthor).mockResolvedValue([])
+
+    const res = await request(server).get(
+      '/api/v1/posts/withAuthor?limit=abc&offset=xyz',
+    )
+
+    expect(res.statusCode).toBe(200)
+    // Should default to NaN -> 10, 0
+    expect(db.getAllPostsWithAuthor).toHaveBeenCalledWith(10, 0)
   })
 })
