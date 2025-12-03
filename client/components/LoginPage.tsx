@@ -135,7 +135,7 @@ function LoginPage() {
   }
 
   if (isError && (error as any)?.status !== 404) {
-    return <div>Error loading user data</div>
+    return <p className="font-sans">Error loading user data</p>
   }
 
   return (
@@ -146,12 +146,12 @@ function LoginPage() {
         </button>
       </IfNotAuthenticated>
       <IfAuthenticated>
-        <p className="mt-5">Create Account</p>
+        <p className="mt-5 font-sans">Create Account</p>
         <form onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="name"
-              className="text-heading mb-2.5 mt-4 block text-sm font-medium"
+              className="text-heading mb-2.5 mt-4 block font-sans text-sm font-medium"
             >
               Name:
               <div className="flex align-middle">
@@ -160,8 +160,8 @@ function LoginPage() {
                   type="text"
                   id="name"
                   name="name"
-                  placeholder="User Name"
-                  className="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full rounded-lg border border-black px-3 py-2.5 text-sm"
+                  placeholder=""
+                  className="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full rounded-lg border border-black px-3 py-2.5 font-[Wingdings] text-sm"
                   value={formState.name}
                   onChange={handleChange}
                   onClick={() => handleEmojiSelection('name')}
@@ -179,15 +179,15 @@ function LoginPage() {
           <div>
             <label
               htmlFor="bio"
-              className="text-heading mb-2.5 block text-sm font-medium"
+              className="text-heading mb-2.5 block font-sans text-sm font-medium"
             >
               Bio:
               <textarea
                 name="bio"
                 id="bio"
-                placeholder="Bio"
+                placeholder=""
                 rows={3}
-                className="overflow-wrap break-word bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full resize-none overflow-hidden rounded-lg border border-black px-3 py-2.5 text-sm"
+                className="overflow-wrap break-word bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full resize-none overflow-hidden rounded-lg border border-black px-3 py-2.5 font-[Wingdings] text-sm"
                 value={formState.bio}
                 onChange={handleChange}
                 onInput={(e) => {
@@ -227,7 +227,7 @@ function LoginPage() {
             </div>
             <label
               htmlFor="Profile Picture"
-              className="text-heading mb-2.5 block text-sm font-medium"
+              className="text-heading mb-2.5 block font-sans text-sm font-medium"
             >
               Profile Picture:
               <div>
@@ -238,17 +238,16 @@ function LoginPage() {
               </div>
             </label>
           </div>
-          <button
-            type="submit"
-            className="hover:bg-success-strong focus:ring-success-medium shadow-xs ml-7 box-border rounded-full border border-transparent bg-lime-300 px-4 py-2.5 text-sm font-medium leading-5 focus:outline-none focus:ring-4"
-          >
-            Create Profile
-          </button>
+          <div className="flex justify-center pt-2.5">
+            <button
+              type="submit"
+              className="hover:bg-success-strong focus:ring-success-medium shadow-xs box-border rounded-full border border-transparent bg-lime-300 px-4 py-2.5 font-sans text-sm font-medium leading-5 focus:outline-none focus:ring-4"
+            >
+              Create Profile
+            </button>
+          </div>
         </form>
       </IfAuthenticated>
-      <IfNotAuthenticated>
-        <p>Please log in to create a profile and explore!</p>
-      </IfNotAuthenticated>
     </div>
   )
 }

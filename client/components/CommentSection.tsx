@@ -75,7 +75,7 @@ export function CommentSection({ postId }: Props) {
     return <p>Loading comments...</p>
   }
   if (isError) {
-    return <p>Error loading comments.</p>
+    return <p className="font-sans">Error loading comments.</p>
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

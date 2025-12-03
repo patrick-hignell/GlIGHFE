@@ -162,7 +162,9 @@ function UploadPage() {
           <br />
         </form>
         {isPending && <Loading />}
-        {isError && <p>Something went wrong uploading post</p>}
+        {isError && (
+          <p className="font-sans">Something went wrong uploading post</p>
+        )}
       </div>
     )
   }

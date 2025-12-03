@@ -37,7 +37,7 @@ export function PhotoUploader({ image, onImageChange }: Props) {
 
   return (
     <div className="text-center">
-      {isError && <p>Something went wrong!</p>}
+      {isError && <p className="font-sans">Something went wrong!</p>}
       {isPending && <Loading />}
       {!isError && !isPending && (
         <button type="button" onClick={handleImageClick}>
