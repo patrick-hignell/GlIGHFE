@@ -6,7 +6,6 @@ function Header() {
 
   const handleLogout = () => {
     logout()
-    // console.log('sign out')
   }
 
   return (
