@@ -104,14 +104,14 @@ function UploadPage() {
           ></input> */}
           <br />
           {imageId && (
-            <div className="flex-col gap-4">
-              <div className="flex flex-row items-start justify-between pl-2 pr-2">
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-row items-center justify-center ">
                 <label className="collapse" htmlFor="caption">
                   Caption
                 </label>
-                <div className="flex min-h-[520px] w-full flex-col">
+                <div className="w-full">
                   <input
-                    className="w-full rounded-lg p-2 text-4xl outline outline-gray-700"
+                    className="w-full rounded-lg p-2 text-xl outline outline-[#80c36e]"
                     name="message"
                     id="caption"
                     type="text"
@@ -147,14 +147,14 @@ function UploadPage() {
                   )}
                 </div>
                 <button
-                  className="pl-4 text-5xl"
+                  className="pl-4 text-3xl"
                   type="button"
                   onClick={() => setShowPicker((val) => !val)}
                 >
                   😀
                 </button>
                 <button type="submit">
-                  <i className="bi bi-send-fill pl-6 text-6xl text-gray-700"></i>
+                  <i className="bi bi-send-fill pl-2 pr-16 text-3xl text-gray-900"></i>
                 </button>
               </div>
             </div>
