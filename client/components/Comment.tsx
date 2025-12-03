@@ -30,6 +30,8 @@ export function Comment({ commentData }: { commentData: CommentWithAuthor }) {
               cloudName="dfjgv0mp6"
               publicId={publicId}
               alt={commentData.userName + "'s profile"}
+              width="300"
+              height="300"
               crop="fill"
             />
           </button>

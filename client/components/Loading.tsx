@@ -15,6 +15,10 @@ function Loading() {
     }
   }, [])
 
-  return <p data-testid="loading-indicator">{loadingMessage.slice(0, count)}</p>
+  return (
+    <p className="text-4xl" data-testid="loading-indicator">
+      {loadingMessage.slice(0, count)}
+    </p>
+  )
 }
 export default Loading

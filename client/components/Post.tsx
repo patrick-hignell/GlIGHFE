@@ -46,8 +46,8 @@ function Post({ post, editMode = false }: Props) {
   }
 
   return (
-    <div className="mb-4 flex max-w-[100rem] flex-col items-center rounded-lg border-2 border-[#9dc5744d] bg-white p-2 shadow-md">
-      <div className="flex w-full items-center justify-start pb-2">
+    <div className="mb-4 flex w-full max-w-[100rem] flex-col items-center rounded-lg border-2 border-[#9dc5744d] bg-white p-2 shadow-md">
+      <div className="flex w-full items-center justify-between pb-2">
         <div className="flex h-14 max-h-14 w-14 max-w-14 items-center justify-center overflow-hidden rounded-full  p-1 shadow-sm">
           <button onClick={handlePictureClick}>
             <Image
@@ -55,13 +55,15 @@ function Post({ post, editMode = false }: Props) {
               cloudName="dfjgv0mp6"
               publicId={post.profilePicture}
               alt={post.userName + "'s profile"}
+              width="300"
+              height="300"
               crop="fill"
             />
           </button>
         </div>
-        <h3 className="break-all pl-2 text-xl font-bold">{post.userName}</h3>
+        <h3 className="pl-2 text-xl font-bold">{post.userName}</h3>
         {editMode ? (
-          <div>
+          <div className="w-20">
             <button onClick={handleProfileClick} className="text-right">
               <i className="bi bi-person-circle text-3xl"></i>
             </button>
@@ -70,7 +72,7 @@ function Post({ post, editMode = false }: Props) {
             </button>
           </div>
         ) : (
-          <div></div>
+          <div className="w-20"></div>
         )}
       </div>
       <hr className="mb-2 h-px  w-full bg-[#caf3a2]" />

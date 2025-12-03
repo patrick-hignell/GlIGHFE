@@ -124,7 +124,7 @@ describe('MainFeed component', () => {
     })
   })
 
-  it('should display "Loading more..." when fetching next page', async () => {
+  it('should display loading indicator when fetching next page', async () => {
     const mockPosts: PostWithAuthor[] = [
       {
         id: 1,
@@ -152,7 +152,7 @@ describe('MainFeed component', () => {
     renderWithProviders(<MainFeed />)
 
     await waitFor(() => {
-      expect(screen.getByText('Loading more...')).toBeInTheDocument()
+      expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
     })
   })
 

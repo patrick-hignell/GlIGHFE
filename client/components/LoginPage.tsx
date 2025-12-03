@@ -142,7 +142,11 @@ function LoginPage() {
     <div className="flex flex-col items-center">
       <IfNotAuthenticated>
         <button onClick={handleLogin}>
-          <img src="../../images/loginButton96.png" alt="Login Logo" />
+          <img
+            src="../../images/loginIcon.png"
+            alt="Login Logo"
+            className="w-16 pt-40"
+          />
         </button>
       </IfNotAuthenticated>
       <IfAuthenticated>
@@ -248,6 +252,11 @@ function LoginPage() {
           </div>
         </form>
       </IfAuthenticated>
+      <IfNotAuthenticated>
+        <p className="pt-10 text-center font-sans text-3xl">
+          Please log in to create a profile and explore!
+        </p>
+      </IfNotAuthenticated>
     </div>
   )
 }

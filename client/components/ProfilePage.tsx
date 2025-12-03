@@ -395,7 +395,7 @@ function ProfilePage() {
 
       {/* Posts Section */}
       {userPosts && userPosts.length > 0 ? (
-        <div className="flex flex-col gap-4 p-2">
+        <div className="flex flex-col items-center gap-4 p-2">
           {userPosts.map((post) => (
             <Post key={post.id} post={post} editMode={editMode} />
           ))}

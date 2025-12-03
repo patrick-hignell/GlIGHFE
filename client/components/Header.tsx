@@ -20,7 +20,7 @@ function Header() {
 
       <IfAuthenticated>
         <button onClick={handleLogout} aria-label="Logout">
-          <i className="bi bi-lock-fill text-4xl"></i>
+          <i className="bi bi-lock-fill text-4xl text-[#51b800]"></i>
         </button>
       </IfAuthenticated>
     </header>
