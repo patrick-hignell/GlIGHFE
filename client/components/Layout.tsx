@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router'
 import Navbar from './Navbar'
 import { useLocation } from 'react-router-dom'
+import Header from './Header'
 
 export default function Layout() {
   const location = useLocation()
@@ -9,10 +10,8 @@ export default function Layout() {
 
   return (
     <div className={wingdings ? "font-['wingdings']" : 'font-sans'}>
-      <header className="flex flex-col items-center">
-        <h1 className="p-6 text-4xl">GlIGHFE!</h1>
-      </header>
-      <main className="flex flex-col items-center pb-20">
+      <Header />
+      <main className="flex flex-col items-center bg-gradient-to-b from-[#e2ffc587] to-[#b1e082af] pb-20">
         {/* Bottom padding to account for fixed navbar height */}
         <Outlet />
       </main>

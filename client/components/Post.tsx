@@ -59,7 +59,7 @@ function Post({ post, editMode = false }: Props) {
             />
           </button>
         </div>
-        <h3 className="text-4xl font-bold">{post.userName}</h3>
+        <h3 className="pl-2 text-xl font-bold">{post.userName}</h3>
         {editMode ? (
           <div>
             <button onClick={handleProfileClick} className="text-right">
@@ -85,7 +85,8 @@ function Post({ post, editMode = false }: Props) {
           />
         )}
       </PostLink>
-      <p className="mt-2 text-4xl text-gray-800">{post.message}</p>
+      <p className="mb-2 mt-2 text-lg text-gray-800">{post.message}</p>
+
       <CommentSection postId={post.id} />
     </div>
   )

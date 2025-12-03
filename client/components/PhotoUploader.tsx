@@ -54,16 +54,14 @@ export function PhotoUploader({ image, onImageChange }: Props) {
           )}
         </button>
       )}
-      <form>
-        <input
-          type="file"
-          accept=".jpg, .jpeg, .png, .webp"
-          onChange={(e) => handleChange(e)}
-          ref={fileInputRef}
-          style={{ display: 'none' }}
-        ></input>
-        {/* {!isPending && <button type="submit">Submit</button>} */}
-      </form>
+      <input
+        type="file"
+        accept=".jpg, .jpeg, .png, .webp"
+        onChange={(e) => handleChange(e)}
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+      />
+      {/* {!isPending && <button type="submit">Submit</button>} */}
     </div>
   )
 }
