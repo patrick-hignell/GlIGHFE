@@ -17,7 +17,11 @@ export async function getAllPosts(db = connection): Promise<Post[]> {
   return posts
 }
 
-export async function getAllPostsWithAuthor(db = connection): Promise<Post[]> {
+export async function getAllPostsWithAuthor(
+  limit = 10,
+  offset = 0,
+  db = connection,
+): Promise<Post[]> {
   const posts = await db('posts')
     .join('users', 'posts.user_id', 'users.auth_id')
     .select(
@@ -30,6 +34,8 @@ export async function getAllPostsWithAuthor(db = connection): Promise<Post[]> {
       'users.profile_picture as profilePicture',
     )
     .orderBy('posts.date_added', 'desc')
+    .limit(limit)
+    .offset(offset)
   return posts
 }
 

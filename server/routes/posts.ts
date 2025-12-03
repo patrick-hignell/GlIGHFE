@@ -18,7 +18,10 @@ router.get('/', async (req, res) => {
 
 router.get('/withAuthor', async (req, res) => {
   try {
-    const posts = await db.getAllPostsWithAuthor()
+    const limit = parseInt(req.query.limit as string) || 10
+    const offset = parseInt(req.query.offset as string) || 0
+
+    const posts = await db.getAllPostsWithAuthor(limit, offset)
     res.json({ posts })
   } catch (error) {
     console.error(error)
