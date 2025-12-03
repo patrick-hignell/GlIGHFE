@@ -95,7 +95,11 @@ function ProfilePage() {
   )
 
   if (!authId) {
-    return <p className="text-red-500">Error: User ID not provided in URL.</p>
+    return (
+      <p className="font-sans text-red-500">
+        Error: User ID not provided in URL.
+      </p>
+    )
   }
 
   if (
@@ -123,7 +127,7 @@ function ProfilePage() {
 
   if (firstError) {
     return (
-      <p className="text-red-500">
+      <p className="font-sans text-red-500">
         Error loading {firstError.label}:{' '}
         {firstError.error instanceof Error
           ? firstError.error.message
@@ -133,7 +137,7 @@ function ProfilePage() {
   }
 
   if (!userProfile) {
-    return <p className="text-red-500">User profile not found.</p>
+    return <p className="font-sans text-red-500">User profile not found.</p>
   }
 
   // Check if current user is following this profile
@@ -288,7 +292,7 @@ function ProfilePage() {
                 <h1 className="-mb-2 text-3xl font-bold text-black">
                   {userProfile.name}
                 </h1>
-                <p className="italic text-gray-900">
+                <p className="text-gray-900">
                   {userProfile.bio || 'No bio provided.'}
                 </p>
               </div>
@@ -357,7 +361,7 @@ function ProfilePage() {
               }}
             >
               <i
-                className={`bi ${editMode ? 'bi-pencil' : 'bi-pencil-fill'} text-black text-2xl  `}
+                className={`bi ${editMode ? 'bi-pencil' : 'bi-pencil-fill'} text-2xl text-black  `}
               ></i>
             </button>
           )}

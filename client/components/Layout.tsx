@@ -6,7 +6,7 @@ import Header from './Header'
 export default function Layout() {
   const location = useLocation()
   const noNavbarPaths = ['/', '/onboarding']
-  const wingdings = false
+  const wingdings = true
 
   return (
     <div className={`${wingdings ? "font-['wingdings']" : 'font-sans'} `}>

@@ -14,11 +14,11 @@ export default function IndividualPostPage() {
   }
 
   if (isError) {
-    return <div>Error loading post.</div>
+    return <p className="font-sans">Error loading post.</p>
   }
 
   if (!post) {
-    return <div>Post not found.</div>
+    return <p className="font-sans">Post not found.</p>
   }
 
   return (
