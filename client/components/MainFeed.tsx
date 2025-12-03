@@ -38,7 +38,7 @@ function MainFeed() {
   }
 
   if (isError) {
-    return <div>Error fetching posts</div>
+    return <p className="font-sans">Error fetching posts</p>
   }
 
   // Flatten all pages into single array
@@ -54,9 +54,7 @@ function MainFeed() {
         {/* Invisible trigger for infinite scroll */}
         <div ref={observerTarget} className="h-10" />
 
-        {isFetchingNextPage && (
-          <div className="py-4 text-center">Loading more...</div>
-        )}
+        {isFetchingNextPage && <Loading />}
       </div>
     </div>
   )
