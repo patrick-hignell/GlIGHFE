@@ -1,5 +1,4 @@
-# Boilerplate: Fullstack with Sass
-## Group Project : GlIGHFE
+# Group Project : GlIGHFE
 
 GlIGHFE (pronounced Glyph-e) is a week long group project for the final week of Devacademy Aotearoa.
 The idea for this project was a social media page with NO words.
